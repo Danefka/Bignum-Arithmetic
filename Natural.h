@@ -17,7 +17,7 @@ public:
     Natural(std::vector<int> digits); // Created by Даниил Гиршович on 06.11.2024.
     Natural operator + (const Natural& other) const; // Created by Даниил Гиршович on 06.11.2024.
     Natural operator - (const Natural& counter) const; // Created by Даниил Гиршович on 06.11.2024.
-    Natural operator / (const Natural& other) const; // Created by Максим Баринов on 06.11.2024.
+    Natural operator = (const Natural& other) const; // Created by Максим Баринов on 06.11.2024.
 };
 
 
