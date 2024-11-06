@@ -47,11 +47,6 @@ Natural Natural::operator+(const Natural &other) const {
 
     return Natural(digits);
 }
-
-Natural Natural::operator-(const Natural &counter) const {
-    std::vector<int> digits;
-
-}
 Natural Natural::operator=(const Natural &other) const {
     return Natural(other.digits);
 }
