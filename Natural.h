@@ -14,6 +14,8 @@ private:
 public:
     Natural(std::string number); // Created by Даниил Гиршович on 06.11.2024.
     Natural(unsigned long long int number); // Created by Даниил Гиршович on 06.11.2024.
+    Natural(std::vector<int> digits); // Created by Даниил Гиршович on 06.11.2024.
+    Natural operator + (const Natural& other) const; // Created by Даниил Гиршович on 06.11.2024.
 };
 
 
