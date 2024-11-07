@@ -69,7 +69,7 @@ int Natural::compare(Natural other) {
 }
 
 bool Natural::compareToZero() {
-    if (this->length() == 1 && this->digits.at(0) == 0) { // Проверка на ноль
+    if (this->length() == 0) { // Проверка на ноль
         return true;
     }
     return false;
@@ -258,3 +258,23 @@ Natural Natural::divRemainder(Natural& other) {
     }
     return numerator;
 }
+
+Natural Natural::gcd(Natural &other) {
+    Natural first = *this;
+    Natural second = other;
+    while(!first.compareToZero() && !second.compareToZero()){
+        if(first >= second) {
+            first = first.divRemainder(second);
+        }else{
+            second = second.divRemainder(first);
+        }
+    }
+    return first + second;
+}
+
+Natural Natural::lcm(Natural &other) {
+    Natural gcd = this->gcd(other);
+    return (this->mul(other)).divQuotient(gcd);
+}
+
+
