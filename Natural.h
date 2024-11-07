@@ -12,15 +12,21 @@ class Natural {
 private:
     std::vector<int> digits;
 public:
+    // Конструкторы
     explicit Natural(std::string number); // Даниил Гиршович
     explicit Natural(unsigned long long int number); // Даниил Гиршович
     explicit Natural(std::vector<int> digits); // Даниил Гиршович
 
+    // Длина числа
     unsigned long long int length(); // Даниил Гиршович
 
+    // Вывод в консоль
     void print(); // Даниил Гиршович
 
     Natural& operator = (const Natural& other) noexcept; // Максим Баринов
+
+    // Функции для натуральных чисел
+    int compare(Natural other); // COM_NN_D Даниил Гиршович
 };
 
 

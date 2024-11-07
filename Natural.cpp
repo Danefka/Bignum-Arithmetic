@@ -12,8 +12,8 @@ Natural::Natural(std::string number) {
             digits.push_back(number[i] - '0');
         }
     }
-    if (digits.back() == 0){ // проверка на наличие нулей перед числом
-        while(digits.back() == 0){
+    if (digits.back() == 0) { // проверка на наличие нулей перед числом
+        while (digits.back() == 0) {
             digits.pop_back();
         }
     }
@@ -31,12 +31,14 @@ Natural::Natural(unsigned long long int number) {
 
 
 Natural::Natural(std::vector<int> digits) {
-    std::copy(digits.begin(), digits.end(), std::back_inserter(this->digits)); // копирование цифр из динамического массива в динамический массив
+    std::copy(digits.begin(), digits.end(),
+              std::back_inserter(this->digits)); // копирование цифр из динамического массива в динамический массив
 }
 
 
-Natural& Natural::operator=(const Natural &other) noexcept {
-    std::copy(other.digits.begin(), other.digits.end(), std::back_inserter(this->digits)); // копирование цифр из динамического массива в динамический массив
+Natural &Natural::operator=(const Natural &other) noexcept {
+    std::copy(other.digits.begin(), other.digits.end(),
+              std::back_inserter(this->digits)); // копирование цифр из динамического массива в динамический массив
     return *this; //Создание нового
 }
 
@@ -48,5 +50,17 @@ void Natural::print() {
     for (const int x: this->digits)
         std::cout << x << ' ';
     std::cout << '\n';
+}
+
+int Natural::compare(Natural other) {
+    if (other.length() != this->length()){
+        return other.length() > this->length() ? 1 : 2; // сравнение длин и возвращение большей, если они не равны
+    }
+    for (int i = this->length() - 1; i >= 0; i--) { // если равны то сравнение по цифрам
+        if(other.digits.at(i) != this->digits.at(i)){
+            return other.digits.at(i) > this->digits.at(i) ? 1 : 2;
+        }
+    }
+    return 0; // Если все цифры чисел равны, то возвращаем 0
 }
 
