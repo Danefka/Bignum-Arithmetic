@@ -269,6 +269,9 @@ Natural Natural::operator+(const Natural& other) noexcept {
 }
 
 Natural Natural::divRemainder(Natural& other) {
+    if (!this->compare(other)) {
+        return Natural(0);
+    }
     Natural numerator = *this;
     while(numerator > other){
         numerator = numerator - numerator.divDigit(other).mul(other);
@@ -279,14 +282,12 @@ Natural Natural::divRemainder(Natural& other) {
 Natural Natural::gcd(Natural &other) {
     Natural first = *this;
     Natural second = other;
-    while(!first.compareToZero() && !second.compareToZero()){
-        if(first >= second) {
-            first = first.divRemainder(second);
-        }else{
-            second = second.divRemainder(first);
-        }
+    while (!second.compareToZero()) {
+        Natural j = second;
+        second = first.divRemainder(second);
+        first = j;
     }
-    return first + second;
+    return first;
 }
 
 Natural Natural::lcm(Natural &other) {
