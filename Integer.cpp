@@ -103,3 +103,7 @@ Integer Integer::operator/(Integer &other) noexcept {
     }
     return res;
 }
+
+Integer Integer::operator%(Integer &other) noexcept {
+    return *this - other * (*this / other);
+}

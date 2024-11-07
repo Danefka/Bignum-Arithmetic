@@ -36,8 +36,8 @@ public:
     Natural operator+(const Natural& other) noexcept;
     Natural operator-(const Natural& other) noexcept;
     Natural operator*(Natural& other) noexcept;
-    Natural operator/(const Natural& other) noexcept;
-    Natural operator%(const Natural& other) noexcept;
+    Natural operator/(Natural& other) noexcept;
+    Natural operator%(Natural& other) noexcept;
 
 
     // Функции для натуральных чисел

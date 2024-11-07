@@ -33,7 +33,7 @@ public:
     Integer operator-(Integer& other) noexcept; // Z-7 SUB_ZZ_Z Першин Артем
     Integer operator*(Integer& other) const noexcept; // Z-8 MUL_ZZ_Z Першин Артем
     Integer operator/(Integer& other) noexcept; // Z-9 DIV_ZZ_Z Першин Артем
-    Integer operator%(const Integer& other) noexcept; // Z-10 MOD_ZZ_Z Першин Артем
+    Integer operator%(Integer& other) noexcept; // Z-10 MOD_ZZ_Z Першин Артем
 
 
 

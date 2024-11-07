@@ -299,11 +299,11 @@ Natural Natural::operator*(Natural &other) noexcept {
     return this->mul(other);
 }
 
-Natural Natural::operator/(const Natural &other) noexcept {
+Natural Natural::operator/(Natural &other) noexcept {
     return this->divQuotient(other);
 }
 
-Natural Natural::operator%(const Natural &other) noexcept {
+Natural Natural::operator%(Natural &other) noexcept {
     return this->divRemainder(other);
 }
 
