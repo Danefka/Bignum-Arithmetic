@@ -184,4 +184,13 @@ Natural Natural::subByMul(Natural other, int k) {
     return this->sub(i);
 }
 
+Natural Natural::mulByTen(int pow) {
+       std::vector<int> digits;
+       int i = 0;
+       while(i < pow){
+           digits.push_back(this->digits.at(i));
+       }
+       return Natural(digits);
+}
+
 Natural::Natural() = default;

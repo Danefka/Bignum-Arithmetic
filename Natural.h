@@ -35,7 +35,7 @@ public:
     Natural add(Natural other); // N-4 ADD_NN_N Даниил Гиршович
     Natural sub(Natural other); // N-5 MUL_Nk_N Даниил Гиршович
     Natural mulByDigit(int d); // N-6 MUL_ND_N Артём Першин
-    Natural mulByTen(int k); // N-7 MUL_Nk_N Матвей Тарасов
+    Natural mulByTen(int pow); // N-7 MUL_Nk_N Матвей Тарасов
     Natural mul(Natural other); // N-8 MUL_NN_N Гиршович Даниил
     Natural subByMul(Natural other, int k); // N-9 SUB_NDN_N Гиршович Даниил
     Natural div(Natural other);
