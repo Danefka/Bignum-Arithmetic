@@ -50,4 +50,12 @@ void Fraction::print() {
     this->down.print();
 }
 
+bool Fraction::isInteger() {
+    Natural one = Natural(1);
+    if(!this->simplify().down.abs().compare(one)){
+        return true;
+    }
+    return false;
+}
+
 

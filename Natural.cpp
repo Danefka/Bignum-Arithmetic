@@ -243,7 +243,7 @@ Natural Natural::divFirstDigit(Natural& other){
     }
     Natural denominator = other.mulByTen(pow-1);
     short k = 0;
-    while(numerator > denominator){
+    while(numerator >= denominator){
         k++;
         numerator = numerator.sub(denominator);
     }
@@ -255,7 +255,7 @@ Natural Natural::divFirstDigit(Natural& other){
 Natural Natural::divQuotient(Natural& other) {
     Natural numerator = *this;
     Natural quotient(0);
-    while(numerator > other){
+    while(numerator >= other && !numerator.isZero()){
         quotient = quotient.add(numerator.divFirstDigit(other));
         numerator = numerator.sub(numerator.divFirstDigit(other).mul(other));
     }
