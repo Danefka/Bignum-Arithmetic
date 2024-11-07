@@ -12,10 +12,8 @@
 
 class Integer {
 private:
-
     bool sign;
     Natural number;
-
 
     explicit Integer(Natural number);
 
