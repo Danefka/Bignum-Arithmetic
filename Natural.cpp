@@ -88,7 +88,7 @@ void Natural::increment() {
     this->digits[i]++;
 }
 
-Natural Natural::sum(Natural other) {
+Natural Natural::add(Natural other) {
     std::vector<int> digits;
     int compare = this->compare(other);
 
@@ -149,7 +149,7 @@ Natural Natural::mulByDigit(int d) {
     return Natural(digits);
 }
 
-Natural Natural::div(Natural other) {
+Natural Natural::sub(Natural other) {
     if (this->compare(other) == 1) {
         return Natural(0);
     }
@@ -167,3 +167,21 @@ Natural Natural::div(Natural other) {
 
     return Natural(digits);
 }
+
+Natural Natural::mul(Natural other) {
+    Natural res = Natural(0);
+    for (int i = other.length() - 1; i > -1 ; i--) {
+        Natural j = res;
+        res = res.mulByTen(1);
+        j = j.mulByDigit(other.digits.at(i));
+        res = res.add(j);
+    }
+    return res;
+}
+
+Natural Natural::subByMul(Natural other, int k) {
+    Natural i = other.mulByDigit(k);
+    return this->sub(i);
+}
+
+Natural::Natural() = default;
