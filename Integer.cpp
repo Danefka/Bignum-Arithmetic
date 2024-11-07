@@ -17,13 +17,13 @@ Integer::Integer(std::string number) {
 
 bool Integer::operator>(const Integer &other) noexcept {
     Natural copy = other.natural;
-    if(this->natural.compareToZero() && copy.compareToZero()){
+    if (this->natural.isZero() && copy.isZero()) {
         return false;
     }
-    if(this->sign && !other.sign){
+    if (this->sign && !other.sign) {
         return true;
     }
-    if(this->sign && other.sign){
+    if (this->sign && other.sign) {
         return this->natural > other.natural;
     }
     return copy > this->natural;
@@ -44,14 +44,13 @@ Integer::Integer(Natural number) {
 }
 
 void Integer::print() {
-    if(!this->sign && !natural.isZero()){
+    if (!this->sign && !natural.isZero()) {
         std::cout << "-";
     }
     natural.print();
 }
 
 Integer::Integer() {}
-
 
 
 Integer::Integer(Integer &integer) {
@@ -71,20 +70,21 @@ Integer &Integer::operator=(const Natural &other) noexcept {
     return *this;
 }
 
-bool Integer::isZero(){
-    return this->number.isZero();
+bool Integer::isZero() {
+    return this->natural.isZero();
+}
 
-Integer::Integer(bool sign, Natural number) {
+Integer::Integer(bool sign, Natural natural) {
     this->sign = new bool(sign);
-    this->natural = number;
+    this->natural = natural;
 }
 
 Natural Integer::abs() {
-    return Natural();
+    return this->natural;
+}
 
 
-
-Integer Integer::add(Integer& other) {
+Integer Integer::add(Integer other) {
     Integer res;
     if (this->sign == other.sign) {
         res.sign = this->sign;
@@ -99,31 +99,40 @@ Integer Integer::add(Integer& other) {
     return res;
 }
 
-bool Integer::isPoz(){
+bool Integer::isPoz() {
     return sign;
-Integer Integer::sub(Integer& other) {
-    return *this->add(other.changeSign());
 }
 
-Integer::Integer(Natural number, bool sign){
+Integer Integer::sub(Integer other) {
+    Integer res, integer;
+    integer = other.changeSign();
+    res = res.add(integer);
+    return res;
+}
+
+Integer::Integer(Natural natural, bool sign) {
     this->sign = sign;
-    this->number = number;
-Integer Integer::mul(Integer& other) {
+    this->natural = natural;
+}
+
+Integer Integer::mul(Integer other) {
     Integer res;
     res.sign = this->sign == other.sign;
     res.natural = this->natural.mul(other.natural);
     return res;
 }
 
-Integer Integer::signSwap() {
-    Integer integer(this->number, !this->sign);
+Integer Integer::changeSign() {
+    Integer integer(this->natural, !this->sign);
     return integer;
+}
+
 Integer Integer::div(Integer other) {
     Integer res;
     res.sign = this->sign == other.sign;
     res.natural = this->natural.divQuotient(other.natural);
     if (res.mul(other) > *this) {
-        Integer * i = new Integer(1);
+        Integer *i = new Integer(1);
         res = res.add(*i);
     }
     return res;
