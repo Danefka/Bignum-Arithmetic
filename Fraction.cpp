@@ -23,7 +23,7 @@ Fraction::Fraction(Natural up, Integer down) {
 
 Fraction::Fraction(Integer up, Integer down) {
     this->up = up.abs();
-    this->down = Integer(up.isPositive == down.isPositive, down.natural());
+    this->down = Integer(up.isPoz() == down.isPoz(), down.abs());
 }
 
 Fraction &Fraction::operator=(const Fraction &other) noexcept {
