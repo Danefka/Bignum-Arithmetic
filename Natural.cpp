@@ -64,6 +64,18 @@ int Natural::compare(Natural other) {
     return 0; // Если все цифры чисел равны, то возвращаем 0
 }
 
+void Natural::increment(){
+    int i = 0;
+    while(i < this->length() && this->digits[i] == 9){
+        this->digits[i] = 0;
+        i++;
+    }
+    if(i == this->length()){
+        this->digits.push_back(1);
+        return;
+    }
+    this->digits[i]++;
+  
 bool Natural::compareToZero() {
     if (this->length() == 1 && this->digits.at(0) == 0){ // Проверка на ноль
         return true;
