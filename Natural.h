@@ -31,6 +31,8 @@ public:
     void increment(); //ADD_1N_N
   
     bool compareToZero(); // NZER_N_B Даниил Гиршович
+
+    Natural mpByDigit(int d);
 };
 
 
