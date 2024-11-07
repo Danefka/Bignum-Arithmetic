@@ -7,7 +7,6 @@
 
 #include <vector>
 #include "string"
-//#include "Integer.h"
 #include <iostream>
 
 class Natural {
@@ -22,7 +21,6 @@ public:
     Natural();
     explicit Natural(std::string number); // Даниил Гиршович
     explicit Natural(unsigned long long int number); // Даниил Гиршович
-//    explicit Natural(Integer integer); // Z-5 Тарасов Матвей
 
 
     // Длина числа

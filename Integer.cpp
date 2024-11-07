@@ -146,3 +146,9 @@ Integer::Integer(const Integer &integer) {
     this->sign= new bool (sign);
     this->natural = integer.natural;
 }
+
+
+Natural Integer::toNatural() { // ADD_ZZ_Z
+    return this->natural;
+}
+

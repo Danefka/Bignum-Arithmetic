@@ -291,7 +291,3 @@ Natural Natural::lcm(Natural other) {
     return (this->mul(other)).divQuotient(gcd);
 }
 
-//Natural::Natural(Integer integer) { // ADD_ZZ_Z
-//    return integer.abs();
-//}
-

@@ -27,6 +27,7 @@ public:
     Integer(std::string number);  // Гиршович Даниил
     Integer(long long int number);  // Гиршович Даниил
 
+
     // Операторы
     Integer &operator=(const Integer &other) noexcept;  // Гиршович Даниил
     Integer &operator=(const Natural &other) noexcept; // Гиршович Даниил
@@ -41,6 +42,7 @@ public:
     bool isZero(); // Z-2 Тарасов Матвей
     bool isPoz(); // Z-2 Тарасов Матвей
     Integer changeSign();// Z-3 Тарасов Матвей
+    Natural toNatural(); // Z-5 Тарасов Матвей
     Integer add(Integer other); // Z-6 ADD_ZZ_Z Першин Артем
     Integer sub(Integer other); // Z-7 SUB_ZZ_Z Першин Артем
     Integer mul(Integer other); // Z-8 MUL_ZZ_Z Першин Артем
