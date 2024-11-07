@@ -158,12 +158,26 @@ Natural Natural::sub(Natural other) {
 
     std::vector<int> digits;
     int overflow = 0;
-    for (int i = 0; i < this->length(); i++) {
-        digits.push_back(this->digits.at(i) - overflow - other.digits.at(i) % 10);
+    for (int i = 0; i < other.length(); i++) {
+        digits.push_back((this->digits.at(i) - overflow - other.digits.at(i) + 10) % 10);
         if (this->digits.at(i) - overflow - other.digits.at(i) < 0) {
             overflow = 1;
         } else {
             overflow = 0;
+        }
+    }
+    if (overflow == 1) {
+        for (int i = other.length(); i < this->length(); i++) {
+            digits.push_back((this->digits.at(i) - overflow + 10) % 10);
+            if (this->digits.at(i) - overflow < 0) {
+                overflow = 1;
+            } else {
+                overflow = 0;
+            }
+        }
+    } else {
+        for (int i = other.length(); i < this->length(); i++) {
+            digits.push_back(this->digits.at(i));
         }
     }
 
