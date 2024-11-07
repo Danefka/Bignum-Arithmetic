@@ -35,6 +35,9 @@ public:
     bool operator>=(const Natural& other) noexcept;
     Natural operator+(const Natural& other) noexcept;
     Natural operator-(const Natural& other) noexcept;
+    Natural operator*(Natural& other) noexcept;
+    Natural operator/(const Natural& other) noexcept;
+    Natural operator%(const Natural& other) noexcept;
 
 
     // Функции для натуральных чисел
@@ -47,9 +50,9 @@ public:
     Natural mulByTen(int pow); // N-7 MUL_Nk_N Матвей Тарасов
     Natural mul(Natural other); // N-8 MUL_NN_N Гиршович Даниил
     Natural subByMul(Natural other, int k); // N-9 SUB_NDN_N Гиршович Даниил
-    Natural divDigit(Natural& other); // N-10 DIV_NN_Dk Першин Артем
-    Natural divQuotient(Natural& other); // N-11 DIV_NN_N Першин Артем
-    Natural divRemainder(Natural& other); // N-12 MOD_NN_N Першин Артем
+    Natural divDigit(const Natural& other); // N-10 DIV_NN_Dk Першин Артем
+    Natural divQuotient(const Natural& other); // N-11 DIV_NN_N Першин Артем
+    Natural divRemainder(const Natural& other); // N-12 MOD_NN_N Першин Артем
     Natural gcd(Natural& other); // N-13 GCF_NN_N Першин Артем
     Natural lcm(Natural& other); // N-14 LCM_NN_N Першин Артем
 };

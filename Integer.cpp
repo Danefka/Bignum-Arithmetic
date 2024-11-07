@@ -11,8 +11,15 @@ Integer::Integer(std::string number) {
         this->sign = false;
         number = number.substr(1,number.length());
     }
-    this->number = Natural(number);
+    this->abs = Natural(number);
 
+}
+
+bool Integer::operator>(const Integer &other) noexcept {
+    Natural copy = other.abs;
+    if(this->abs.compareToZero() && copy.compareToZero()){
+        return false;
+    }
 }
 
 Integer::Integer(long long int number) {
@@ -21,12 +28,12 @@ Integer::Integer(long long int number) {
         this->sign = false;
         number = number*(-1);
     }
-    this->number = Natural(number);
+    this->abs = Natural(number);
 }
 
 Integer::Integer(Natural number) {
     this->sign = true;
-    this->number = number;
+    this->abs = number;
 }
 
 void Integer::print() {
@@ -55,4 +62,44 @@ Integer &Integer::operator=(const Natural &other) noexcept {
     this->sign = true;
     this->number = Natural(other);
     return *this;
+}
+
+bool Integer::operator==(const Integer &other) noexcept {
+    return true;
+}
+
+Integer Integer::operator+(Integer &other) noexcept {
+    Integer res;
+    if(this->sign == other.sign){
+        res.sign = this->sign;
+        res.abs = this->abs + other.abs;
+    }
+    if(this->abs > other.abs){
+        res.sign = this->sign;
+        res.abs = this->abs - other.abs;
+    }
+    res.sign = other.sign;
+    res.abs = other.abs - this->abs;
+}
+
+Integer Integer::operator-(Integer &other) noexcept {
+    return *this - other.changeSign();
+}
+
+Integer Integer::operator*(Integer &other) const noexcept {
+    Integer res;
+    Natural copy = this->abs;
+    res.sign = this->sign == other.sign;
+    res.abs = copy * other.abs;
+    return res;
+}
+
+Integer Integer::operator/(Integer &other) noexcept {
+    Integer res;
+    res.sign = this->sign == other.sign;
+    res.abs = this->abs / other.abs;
+    if(res * other > *this){
+        res = res + Integer(1);
+    }
+    return res;
 }
