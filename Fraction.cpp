@@ -32,6 +32,15 @@ Fraction &Fraction::operator=(const Fraction &other) noexcept {
     return *this;
 }
 
+void Fraction::print() {
+    this->up.print();
+    for (int i = up.length() > down.abs().length() ? up.length() : down.abs().length(); i > 0; i--) {
+        std::cout << "-";
+    }
+    std::cout << "\n";
+    this->down.print();
+}
+
 Fraction Fraction::simplify() {
     Fraction res;
     Natural gcd;
@@ -41,18 +50,9 @@ Fraction Fraction::simplify() {
     return res;
 }
 
-void Fraction::print() {
-    this->up.print();
-    for (int i = up.length() > down.abs().length()? up.length() : down.abs().length(); i > 0; i--) {
-        std::cout << "-";
-    }
-    std::cout << "\n";
-    this->down.print();
-}
-
 bool Fraction::isInteger() {
     Natural one = Natural(1);
-    if(!this->simplify().down.abs().compare(one)){
+    if (!this->simplify().down.abs().compare(one)) {
         return true;
     }
     return false;

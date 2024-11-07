@@ -4,6 +4,16 @@
 
 #include "Natural.h"
 
+Natural::Natural(std::vector<int> digits) {
+    while (!digits.empty() && digits.back() == 0) {
+        digits.pop_back();
+    }
+    std::copy(digits.begin(), digits.end(),
+              std::back_inserter(this->digits)); // копирование цифр из динамического массива в динамический массив
+}
+
+Natural::Natural() = default;
+
 Natural::Natural(std::string number) {
     std::vector<int> digits;
     for (int i = number.length() - 1; i >= 0; i--) {  // копирование цифр из строки в динамический массив
@@ -28,23 +38,6 @@ Natural::Natural(unsigned long long int number) {
     this->digits = digits;
 }
 
-
-Natural::Natural(std::vector<int> digits) {
-    while (!digits.empty() && digits.back() == 0) {
-        digits.pop_back();
-    }
-    std::copy(digits.begin(), digits.end(),
-              std::back_inserter(this->digits)); // копирование цифр из динамического массива в динамический массив
-}
-
-
-Natural &Natural::operator=(const Natural &other) noexcept {
-    if (this != &other) {
-        digits = other.digits;
-    }
-    return *this;
-}
-
 unsigned long long int Natural::length() {
     return this->digits.size();
 }
@@ -58,6 +51,35 @@ void Natural::print() {
         std::cout << "\n";
     }
 }
+
+Natural &Natural::operator=(const Natural &other) noexcept {
+    if (this != &other) {
+        digits = other.digits;
+    }
+    return *this;
+}
+
+bool Natural::operator==(const Natural &other) noexcept {
+    if (this->compare(other) == 0) {
+        return true;
+    }
+    return false;
+}
+
+bool Natural::operator>(const Natural &other) noexcept {
+    if (this->compare(other) == 2) {
+        return true;
+    }
+    return false;
+}
+
+bool Natural::operator>=(const Natural &other) noexcept {
+    if (*this > other || *this == other) {
+        return true;
+    }
+    return false;
+}
+
 
 int Natural::compare(Natural other) {
     if (other.length() != this->length()) {
@@ -133,24 +155,6 @@ Natural Natural::add(Natural other) {
 }
 
 
-Natural Natural::mulByDigit(int d) {
-    int overflow = 0;
-    int i = 0;
-    int res;
-    std::vector<int> digits;
-    while (i < this->length()) {
-        res = this->digits[i] * d + overflow;
-        digits.push_back(res % 10);
-        overflow = res / 10;
-        i++;
-    }
-    if (overflow == 0) {
-        return Natural(digits);
-    }
-    digits.push_back(overflow);
-    return Natural(digits);
-}
-
 Natural Natural::sub(Natural other) {
     if (this->compare(other) == 1) {
         return Natural(0);
@@ -184,20 +188,22 @@ Natural Natural::sub(Natural other) {
     return Natural(digits);
 }
 
-Natural Natural::mul(Natural other) {
-    Natural res = Natural(0);
-    for (int i = 0; i < other.length();i++) {
-        Natural j = Natural(this->digits);
-        j = j.mulByTen(i);
-        j = j.mulByDigit(other.digits.at(i));
-        res = res.add(j);
+Natural Natural::mulByDigit(int d) {
+    int overflow = 0;
+    int i = 0;
+    int res;
+    std::vector<int> digits;
+    while (i < this->length()) {
+        res = this->digits[i] * d + overflow;
+        digits.push_back(res % 10);
+        overflow = res / 10;
+        i++;
     }
-    return res;
-}
-
-Natural Natural::subByMul(Natural other, int k) {
-    Natural i = other.mulByDigit(k);
-    return this->sub(i);
+    if (overflow == 0) {
+        return Natural(digits);
+    }
+    digits.push_back(overflow);
+    return Natural(digits);
 }
 
 Natural Natural::mulByTen(int pow) {
@@ -212,50 +218,43 @@ Natural Natural::mulByTen(int pow) {
     return Natural(digits);
 }
 
-Natural::Natural() = default;
-
-bool Natural::operator==(const Natural& other) noexcept {
-    if(this->compare(other) == 0){
-        return true;
+Natural Natural::mul(Natural other) {
+    Natural res = Natural(0);
+    for (int i = 0; i < other.length(); i++) {
+        Natural j = Natural(this->digits);
+        j = j.mulByTen(i);
+        j = j.mulByDigit(other.digits.at(i));
+        res = res.add(j);
     }
-    return false;
+    return res;
 }
 
-bool Natural::operator>(const Natural& other) noexcept {
-    if(this->compare(other) == 2){
-        return true;
-    }
-    return false;
+Natural Natural::subByMul(Natural other, int k) {
+    Natural i = other.mulByDigit(k);
+    return this->sub(i);
 }
 
-bool Natural::operator>=(const Natural& other) noexcept {
-    if(*this > other || *this == other){
-        return true;
-    }
-    return false;
-}
 
-Natural Natural::divFirstDigit(Natural& other){
+Natural Natural::divFirstDigit(Natural &other) {
     unsigned long long pow = 1;
     Natural numerator = *this;
-    while(numerator > other.mulByTen(pow)){
+    while (numerator > other.mulByTen(pow)) {
         pow++;
     }
-    Natural denominator = other.mulByTen(pow-1);
+    Natural denominator = other.mulByTen(pow - 1);
     short k = 0;
-    while(numerator >= denominator){
+    while (numerator >= denominator) {
         k++;
         numerator = numerator.sub(denominator);
     }
-    return Natural(k).mulByTen(pow-1);
+    return Natural(k).mulByTen(pow - 1);
 }
 
 
-
-Natural Natural::divQuotient(Natural& other) {
+Natural Natural::divQuotient(Natural &other) {
     Natural numerator = *this;
     Natural quotient(0);
-    while(numerator >= other && !numerator.isZero()){
+    while (numerator >= other && !numerator.isZero()) {
         quotient = quotient.add(numerator.divFirstDigit(other));
         numerator = numerator.sub(numerator.divFirstDigit(other).mul(other));
     }
@@ -263,13 +262,12 @@ Natural Natural::divQuotient(Natural& other) {
 }
 
 
-
-Natural Natural::divRemainder(Natural& other) {
+Natural Natural::divRemainder(Natural &other) {
     if (!this->compare(other)) {
         return Natural(0);
     }
     Natural numerator = *this;
-    while(numerator > other){
+    while (numerator > other) {
         numerator = numerator.sub(numerator.divFirstDigit(other).mul(other));
     }
     return numerator;

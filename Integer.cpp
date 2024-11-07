@@ -5,6 +5,27 @@
 #include "Integer.h"
 #include "Natural.h"
 
+Integer::Integer() {}
+
+Integer::Integer(const Integer &integer) {
+    this->sign = new bool(sign);
+    this->natural = integer.natural;
+}
+
+Integer::Integer(Natural number) {
+    this->sign = true;
+    this->natural = number;
+}
+
+Integer::Integer(Natural natural, bool sign) {
+    this->sign = sign;
+    this->natural = natural;
+}
+
+Integer::Integer(bool sign, Natural natural) {
+    Integer(natural, sign);
+}
+
 Integer::Integer(std::string number) {
     this->sign = true;
     if (!number.empty() && number.at(0) == '-') {
@@ -13,6 +34,27 @@ Integer::Integer(std::string number) {
     }
     this->natural = Natural(number);
 
+}
+
+Integer::Integer(long long int number) {
+    this->sign = true;
+    if (number < 0) {
+        this->sign = false;
+        number = number * (-1);
+    }
+    this->natural = Natural(number);
+}
+
+Integer &Integer::operator=(const Integer &other) noexcept {
+    this->sign = new bool(sign);
+    this->natural = other.natural;
+    return *this;
+}
+
+Integer &Integer::operator=(const Natural &other) noexcept {
+    this->sign = true;
+    this->natural = Natural(other);
+    return *this;
 }
 
 bool Integer::operator>(const Integer &other) noexcept {
@@ -29,19 +71,6 @@ bool Integer::operator>(const Integer &other) noexcept {
     return copy > this->natural;
 }
 
-Integer::Integer(long long int number) {
-    this->sign = true;
-    if (number < 0) {
-        this->sign = false;
-        number = number * (-1);
-    }
-    this->natural = Natural(number);
-}
-
-Integer::Integer(Natural number) {
-    this->sign = true;
-    this->natural = number;
-}
 
 void Integer::print() {
     if (!this->sign && !natural.isZero()) {
@@ -50,33 +79,26 @@ void Integer::print() {
     natural.print();
 }
 
-Integer::Integer() {}
-
-Integer &Integer::operator=(const Integer &other) noexcept {
-    this->sign = new bool(sign);
-    this->natural = other.natural;
-    return *this;
-}
-
-Integer &Integer::operator=(const Natural &other) noexcept {
-    this->sign = true;
-    this->natural = Natural(other);
-    return *this;
+Natural Integer::abs() {
+    return this->natural;
 }
 
 bool Integer::isZero() {
     return this->natural.isZero();
 }
 
-Integer::Integer(bool sign, Natural natural) {
-    this->sign = new bool(sign);
-    this->natural = natural;
+bool Integer::isPoz() {
+    return sign;
 }
 
-Natural Integer::abs() {
+Integer Integer::changeSign() {
+    Integer integer(this->natural, !this->sign);
+    return integer;
+}
+
+Natural Integer::toNatural() { // ADD_ZZ_Z
     return this->natural;
 }
-
 
 Integer Integer::add(Integer other) {
     Integer res;
@@ -93,20 +115,11 @@ Integer Integer::add(Integer other) {
     return res;
 }
 
-bool Integer::isPoz() {
-    return sign;
-}
-
 Integer Integer::sub(Integer other) {
     Integer res, integer;
     integer = other.changeSign();
     res = res.add(integer);
     return res;
-}
-
-Integer::Integer(Natural natural, bool sign) {
-    this->sign = sign;
-    this->natural = natural;
 }
 
 Integer Integer::mul(Integer other) {
@@ -116,10 +129,6 @@ Integer Integer::mul(Integer other) {
     return res;
 }
 
-Integer Integer::changeSign() {
-    Integer integer(this->natural, !this->sign);
-    return integer;
-}
 
 Integer Integer::div(Integer other) {
     Integer res;
@@ -140,15 +149,5 @@ Integer Integer::mod(Integer other) {
     integer = integer.mul(other);
     res = res.sub(integer);
     return res;
-}
-
-Integer::Integer(const Integer &integer) {
-    this->sign= new bool (sign);
-    this->natural = integer.natural;
-}
-
-
-Natural Integer::toNatural() { // ADD_ZZ_Z
-    return this->natural;
 }
 
