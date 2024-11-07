@@ -157,10 +157,10 @@ Natural Natural::sub(Natural other) {
     std::vector<int> digits;
     int overflow = 0;
     for (int i = 0; i < this->length(); i++) {
-        digits.push_back(this->digits.at(i)-overflow - other.digits.at(i)%10);
-        if (this->digits.at(i)-overflow - other.digits.at(i)<0){
+        digits.push_back(this->digits.at(i) - overflow - other.digits.at(i) % 10);
+        if (this->digits.at(i) - overflow - other.digits.at(i) < 0) {
             overflow = 1;
-        } else{
+        } else {
             overflow = 0;
         }
     }
@@ -170,7 +170,7 @@ Natural Natural::sub(Natural other) {
 
 Natural Natural::mul(Natural other) {
     Natural res = Natural(0);
-    for (int i = other.length() - 1; i > -1 ; i--) {
+    for (int i = other.length() - 1; i > -1; i--) {
         Natural j = res;
         res = res.mulByTen(1);
         j = j.mulByDigit(other.digits.at(i));
@@ -185,15 +185,15 @@ Natural Natural::subByMul(Natural other, int k) {
 }
 
 Natural Natural::mulByTen(int pow) {
-       std::vector<int> digits;
-       while(pow > 0){
-           digits.push_back(0);
-           pow--;
-       }
-       for(int i = 0; this->length(); i++){
-           digits.push_back(this->digits.at(i));
-       }
-       return Natural(digits);
+    std::vector<int> digits;
+    while (pow > 0) {
+        digits.push_back(0);
+        pow--;
+    }
+    for (int i = 0; this->length(); i++) {
+        digits.push_back(this->digits.at(i));
+    }
+    return Natural(digits);
 }
 
 Natural::Natural() = default;

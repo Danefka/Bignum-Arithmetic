@@ -12,10 +12,12 @@ class Natural {
 private:
     std::vector<int> digits;
 
+    //Приватный конструктор использующийся в методах;
     explicit Natural(std::vector<int> digits); // Даниил Гиршович
 public:
     // Конструкторы
     Natural();
+
     explicit Natural(std::string number); // Даниил Гиршович
     explicit Natural(unsigned long long int number); // Даниил Гиршович
 
@@ -38,7 +40,6 @@ public:
     Natural mulByTen(int pow); // N-7 MUL_Nk_N Матвей Тарасов
     Natural mul(Natural other); // N-8 MUL_NN_N Гиршович Даниил
     Natural subByMul(Natural other, int k); // N-9 SUB_NDN_N Гиршович Даниил
-    Natural div(Natural other);
 
 };
 
