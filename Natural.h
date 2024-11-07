@@ -7,6 +7,8 @@
 
 #include <vector>
 #include "string"
+#include "Integer.h"
+#include <iostream>
 
 class Natural {
 private:

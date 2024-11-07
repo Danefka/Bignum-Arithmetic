@@ -6,24 +6,29 @@
 #define BIGNUM_ARITHMETIC_INTEGER_H
 
 
-
 #include "string"
 #include "Natural.h"
+#include <iostream>
 
-
-class Integer{
+class Integer {
 private:
     bool sign;
     Natural number;
 
-    Integer(Natural number);
+    explicit Integer(Natural number);
+
 public:
-    Integer(std::string number);
+    //
+    Integer();
+    Integer(Integer &integer);
+    explicit Integer(std::string number);
     explicit Integer(long long int number);
+
+    Integer &operator=(const Integer &other) noexcept;
+    Integer &operator=(const Natural &other) noexcept;
 
     void print();
 };
-
 
 
 #endif //BIGNUM_ARITHMETIC_INTEGER_H

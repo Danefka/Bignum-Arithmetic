@@ -25,11 +25,34 @@ Integer::Integer(long long int number) {
 }
 
 Integer::Integer(Natural number) {
-
+    this->sign = true;
+    this->number = number;
 }
 
 void Integer::print() {
-    if(!this->sign){
-        std::cout <<
+    if(!this->sign && !number.compareToZero()){
+        std::cout << "-";
     }
+    number.print();
+}
+
+Integer::Integer() {}
+
+
+
+Integer::Integer(Integer &integer) {
+    this->sign = new bool(integer.sign);
+    this->number = Natural(number);
+}
+
+Integer &Integer::operator=(const Integer &other) noexcept {
+    this->sign = new bool(sign);
+    this->number = other.number;
+    return *this;
+}
+
+Integer &Integer::operator=(const Natural &other) noexcept {
+    this->sign = true;
+    this->number = Natural(other);
+    return *this;
 }

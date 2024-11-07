@@ -2,7 +2,6 @@
 // Created by Даниил Гиршович on 06.11.2024.
 //
 
-#include <iostream>
 #include "Natural.h"
 
 Natural::Natural(std::string number) {
