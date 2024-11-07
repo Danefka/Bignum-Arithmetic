@@ -28,14 +28,14 @@ public:
     // Функции для натуральных чисел
     int compare(Natural other); // COM_NN_D Даниил Гиршович
 
-    void increment(); //ADD_1N_N Артем Першин
+    void increment(); // ADD_1N_N Артём Першин
   
     bool compareToZero(); // NZER_N_B Даниил Гиршович
 
-    Natural mpByDigit(int d); // MUL_ND_N Артем Першин
+    Natural mulByDigit(int d); // MUL_ND_N Артем Першин
+
+    Natural sum(Natural other); // ADD_NN_N Даниил Гиршович
 };
-
-
 
 
 #endif //BIGNUM_ARITHMETIC_NATURAL_H
