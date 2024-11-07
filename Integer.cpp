@@ -68,8 +68,9 @@ bool Integer::operator==(const Integer &other) noexcept {
     return true;
 }
 
-Integer Integer::operator+(Integer &other) noexcept {
+Integer Integer::operator+(const Integer &other) noexcept {
     Integer res;
+    Natural copy = other.abs;
     if(this->sign == other.sign){
         res.sign = this->sign;
         res.abs = this->abs + other.abs;
@@ -79,14 +80,14 @@ Integer Integer::operator+(Integer &other) noexcept {
         res.abs = this->abs - other.abs;
     }
     res.sign = other.sign;
-    res.abs = other.abs - this->abs;
+    res.abs = copy - this->abs;
 }
 
-Integer Integer::operator-(Integer &other) noexcept {
+Integer Integer::operator-(const Integer &other) noexcept {
     return *this - other.changeSign();
 }
 
-Integer Integer::operator*(Integer &other) const noexcept {
+Integer Integer::operator*(const Integer &other) const noexcept {
     Integer res;
     Natural copy = this->abs;
     res.sign = this->sign == other.sign;
@@ -94,7 +95,7 @@ Integer Integer::operator*(Integer &other) const noexcept {
     return res;
 }
 
-Integer Integer::operator/(Integer &other) noexcept {
+Integer Integer::operator/(const Integer &other) noexcept {
     Integer res;
     res.sign = this->sign == other.sign;
     res.abs = this->abs / other.abs;
@@ -104,6 +105,6 @@ Integer Integer::operator/(Integer &other) noexcept {
     return res;
 }
 
-Integer Integer::operator%(Integer &other) noexcept {
-    return *this - other * (*this / other);
+Integer Integer::operator%(const Integer &other) noexcept {
+    return ;
 }

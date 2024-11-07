@@ -235,13 +235,14 @@ bool Natural::operator>=(const Natural& other) noexcept {
     return false;
 }
 
-Natural Natural::divDigit(Natural& other){
+Natural Natural::divDigit(const Natural& other){
     unsigned long long pow = 1;
+    Natural copy = other;
     Natural numerator = *this;
-    while(numerator > other.mulByTen(pow)){
+    while(numerator > copy.mulByTen(pow)){
         pow++;
     }
-    Natural denominator = other.mulByTen(pow-1);
+    Natural denominator = copy.mulByTen(pow-1);
     short k = 0;
     while(numerator > denominator){
         k++;
@@ -254,7 +255,7 @@ Natural Natural::operator-(const Natural& other) noexcept {
     return this->sub(other);
 }
 
-Natural Natural::divQuotient(Natural& other) {
+Natural Natural::divQuotient(const Natural& other) {
     Natural numerator = *this;
     Natural quotient(0);
     while(numerator > other){
@@ -268,7 +269,7 @@ Natural Natural::operator+(const Natural& other) noexcept {
     return this->add(other);
 }
 
-Natural Natural::divRemainder(Natural& other) {
+Natural Natural::divRemainder(const Natural& other) {
     if (!this->compare(other)) {
         return Natural(0);
     }
@@ -295,16 +296,14 @@ Natural Natural::lcm(Natural &other) {
     return (this->mul(other)).divQuotient(gcd);
 }
 
-Natural Natural::operator*(Natural &other) noexcept {
+Natural Natural::operator*(const Natural &other) noexcept {
     return this->mul(other);
 }
 
-Natural Natural::operator/(Natural &other) noexcept {
+Natural Natural::operator/(const Natural &other) noexcept {
     return this->divQuotient(other);
 }
 
-Natural Natural::operator%(Natural &other) noexcept {
+Natural Natural::operator%(const Natural &other) noexcept {
     return this->divRemainder(other);
 }
-
-
