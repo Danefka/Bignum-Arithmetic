@@ -71,7 +71,7 @@ int Natural::compare(Natural other) {
     return 0; // Если все цифры чисел равны, то возвращаем 0
 }
 
-bool Natural::compareToZero() {
+bool Natural::isZero() {
     if (this->length() == 0) { // Проверка на ноль
         return true;
     }
@@ -278,7 +278,7 @@ Natural Natural::divRemainder(Natural& other) {
 Natural Natural::gcd(Natural &other) {
     Natural first = *this;
     Natural second = other;
-    while (!second.compareToZero()) {
+    while (!second.isZero()) {
         Natural j = second;
         second = first.divRemainder(second);
         first = j;

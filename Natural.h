@@ -22,7 +22,7 @@ public:
     Natural();
     explicit Natural(std::string number); // Даниил Гиршович
     explicit Natural(unsigned long long int number); // Даниил Гиршович
-    explicit Natural(Integer integer); // Тарасов Матвей
+    explicit Natural(Integer integer); // Z-5 Тарасов Матвей
 
 
     // Длина числа
@@ -40,7 +40,7 @@ public:
 
     // Функции для натуральных чисел
     int compare(Natural other); // N-1 COM_NN_D Даниил Гиршович
-    bool compareToZero(); // N-2 NZER_N_B Даниил Гиршович
+    bool isZero(); // N-2 NZER_N_B Даниил Гиршович
     void increment(); // N-3 ADD_1N_N Артём Першин
     Natural add(Natural other); // N-4 ADD_NN_N Даниил Гиршович
     Natural sub(Natural other); // N-5 MUL_Nk_N Даниил Гиршович
