@@ -11,7 +11,7 @@ Integer::Integer(std::string number) {
         this->sign = false;
         number = number.substr(1,number.length());
     }
-    this->number = Natural(number);
+    this->natural = Natural(number);
 
 }
 
@@ -21,19 +21,19 @@ Integer::Integer(long long int number) {
         this->sign = false;
         number = number*(-1);
     }
-    this->number = Natural(number);
+    this->natural = Natural(number);
 }
 
 Integer::Integer(Natural number) {
     this->sign = true;
-    this->number = number;
+    this->natural = number;
 }
 
 void Integer::print() {
-    if(!this->sign && !number.compareToZero()){
+    if(!this->sign && !natural.isZero()){
         std::cout << "-";
     }
-    number.print();
+    natural.print();
 }
 
 Integer::Integer() {}
@@ -42,12 +42,12 @@ Integer::Integer() {}
 
 Integer::Integer(Integer &integer) {
     this->sign = new bool(integer.sign);
-    this->number = Natural(number);
+    this->natural = Natural(natural);
 }
 
 Integer &Integer::operator=(const Integer &other) noexcept {
     this->sign = new bool(sign);
-    this->number = other.number;
+    this->natural = other.natural;
     return *this;
 }
 
@@ -56,3 +56,26 @@ Integer &Integer::operator=(const Natural &other) noexcept {
     this->number = Natural(other);
     return *this;
 }
+
+bool Integer::isZero(){
+    return this->number.isZero();
+}
+
+Natural Integer::abs() {
+    return Natural();
+}
+
+bool Integer::isPoz(){
+    return sign;
+}
+
+Integer::Integer(Natural number, bool sign){
+    this->sign = sign;
+    this->number = number;
+}
+
+Integer Integer::signSwap() {
+    Integer integer(this->number, !this->sign);
+    return integer;
+}
+
