@@ -31,7 +31,7 @@ Natural::Natural(unsigned long long int number) {
 
 
 Natural::Natural(std::vector<int> digits) {
-    while (digits.back() == 0) {
+    while (!digits.empty() && digits.back() == 0) {
         digits.pop_back();
     }
     std::copy(digits.begin(), digits.end(),
@@ -40,9 +40,10 @@ Natural::Natural(std::vector<int> digits) {
 
 
 Natural &Natural::operator=(const Natural &other) noexcept {
-    std::copy(other.digits.begin(), other.digits.end(),
-              std::back_inserter(this->digits)); // копирование цифр из динамического массива в динамический массив
-    return *this; //Создание нового
+    if (this != &other) {
+        digits = other.digits;
+    }
+    return *this;
 }
 
 unsigned long long int Natural::length() {
@@ -186,9 +187,9 @@ Natural Natural::sub(Natural other) {
 
 Natural Natural::mul(Natural other) {
     Natural res = Natural(0);
-    for (int i = other.length() - 1; i > -1; i--) {
-        Natural j = res;
-        res = res.mulByTen(1);
+    for (int i = 0; i < other.length();i++) {
+        Natural j = Natural(this->digits);
+        j = j.mulByTen(i);
         j = j.mulByDigit(other.digits.at(i));
         res = res.add(j);
     }
@@ -206,7 +207,7 @@ Natural Natural::mulByTen(int pow) {
         digits.push_back(0);
         pow--;
     }
-    for (int i = 0; this->length(); i++) {
+    for (int i = 0; i < this->length(); i++) {
         digits.push_back(this->digits.at(i));
     }
     return Natural(digits);
