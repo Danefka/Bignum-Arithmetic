@@ -23,3 +23,13 @@ Integer::Integer(long long int number) {
     }
     this->number = Natural(number);
 }
+
+Integer::Integer(Natural number) {
+
+}
+
+void Integer::print() {
+    if(!this->sign){
+        std::cout <<
+    }
+}
