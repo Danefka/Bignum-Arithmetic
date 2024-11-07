@@ -64,3 +64,10 @@ int Natural::compare(Natural other) {
     return 0; // Если все цифры чисел равны, то возвращаем 0
 }
 
+bool Natural::compareToZero() {
+    if (this->length() == 1 && this->digits.at(0) == 0){ // Проверка на ноль
+        return true;
+    }
+    return false;
+}
+
