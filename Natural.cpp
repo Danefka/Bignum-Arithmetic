@@ -75,5 +75,11 @@ void Natural::increment(){
         return;
     }
     this->digits[i]++;
+  
+bool Natural::compareToZero() {
+    if (this->length() == 1 && this->digits.at(0) == 0){ // Проверка на ноль
+        return true;
+    }
+    return false;
 }
 

@@ -29,6 +29,8 @@ public:
     int compare(Natural other); // COM_NN_D Даниил Гиршович
 
     void increment(); //ADD_1N_N
+  
+    bool compareToZero(); // NZER_N_B Даниил Гиршович
 };
 
 
