@@ -7,6 +7,7 @@
 
 
 #include "Natural.h"
+#include "Integer.h"
 
 class Fraction {
 private:
@@ -20,7 +21,14 @@ public:
     Fraction(Natural up, Integer down);
     Fraction(Integer up, Integer down);
 
+    // Операторы
     Fraction &operator=(const Fraction &other) noexcept;
+
+    // Вывод в консоль
+    void print();
+
+    // Функции для рациональными числами
+    Fraction simplify(); // Q-1 Гиршович Даниил
 };
 
 

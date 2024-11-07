@@ -7,7 +7,7 @@
 
 #include <vector>
 #include "string"
-#include "Integer.h"
+//#include "Integer.h"
 #include <iostream>
 
 class Natural {
@@ -22,7 +22,7 @@ public:
     Natural();
     explicit Natural(std::string number); // Даниил Гиршович
     explicit Natural(unsigned long long int number); // Даниил Гиршович
-    explicit Natural(Integer integer); // Z-5 Тарасов Матвей
+//    explicit Natural(Integer integer); // Z-5 Тарасов Матвей
 
 
     // Длина числа
@@ -51,8 +51,8 @@ public:
     Natural divFirstDigit(Natural& other); // N-10 DIV_NN_Dk Першин Артем
     Natural divQuotient(Natural& other); // N-11 DIV_NN_N Першин Артем
     Natural divRemainder(Natural& other); // N-12 MOD_NN_N Першин Артем
-    Natural gcd(Natural& other); // N-13 GCF_NN_N Першин Артем
-    Natural lcm(Natural& other); // N-14 LCM_NN_N Першин Артем
+    Natural gcd(Natural other); // N-13 GCF_NN_N Першин Артем
+    Natural lcm(Natural other); // N-14 LCM_NN_N Першин Артем
 };
 
 

@@ -20,7 +20,7 @@ private:
 public:
     // Конструкторы
     Integer();  // Гиршович Даниил
-    Integer(Integer &integer);  // Гиршович Даниил
+    Integer(const Integer &integer);  // Гиршович Даниил
     Integer(Natural number);  // Z-4 Гиршович Даниил
     Integer(Natural natural, bool sign); // Z-4 Тарасов Матвей
     Integer(bool sign,Natural number);  // Z-4 Гиршович Даниил
@@ -36,7 +36,7 @@ public:
     // Вывод в консоль
     void print(); // Гиршович Даниил
 
-
+    // Функции для целых чисел
     Natural abs(); // Z-1 Тарасов Матвей
     bool isZero(); // Z-2 Тарасов Матвей
     bool isPoz(); // Z-2 Тарасов Матвей

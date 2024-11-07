@@ -275,7 +275,7 @@ Natural Natural::divRemainder(Natural& other) {
     return numerator;
 }
 
-Natural Natural::gcd(Natural &other) {
+Natural Natural::gcd(Natural other) {
     Natural first = *this;
     Natural second = other;
     while (!second.isZero()) {
@@ -286,12 +286,12 @@ Natural Natural::gcd(Natural &other) {
     return first;
 }
 
-Natural Natural::lcm(Natural &other) {
+Natural Natural::lcm(Natural other) {
     Natural gcd = this->gcd(other);
     return (this->mul(other)).divQuotient(gcd);
 }
 
-Natural::Natural(Integer integer) { // ADD_ZZ_Z
-    return integer.abs();
-}
+//Natural::Natural(Integer integer) { // ADD_ZZ_Z
+//    return integer.abs();
+//}
 

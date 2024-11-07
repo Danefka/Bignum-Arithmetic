@@ -52,12 +52,6 @@ void Integer::print() {
 
 Integer::Integer() {}
 
-
-Integer::Integer(Integer &integer) {
-    this->sign = new bool(integer.sign);
-    this->natural = Natural(natural);
-}
-
 Integer &Integer::operator=(const Integer &other) noexcept {
     this->sign = new bool(sign);
     this->natural = other.natural;
@@ -132,8 +126,9 @@ Integer Integer::div(Integer other) {
     res.sign = this->sign == other.sign;
     res.natural = this->natural.divQuotient(other.natural);
     if (res.mul(other) > *this) {
-        Integer *i = new Integer(1);
-        res = res.add(*i);
+        Integer i;
+        i.natural = Natural(1);
+        res = res.add(i);
     }
     return res;
 }
@@ -145,4 +140,9 @@ Integer Integer::mod(Integer other) {
     integer = integer.mul(other);
     res = res.sub(integer);
     return res;
+}
+
+Integer::Integer(const Integer &integer) {
+    this->sign= new bool (sign);
+    this->natural = integer.natural;
 }

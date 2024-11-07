@@ -32,4 +32,22 @@ Fraction &Fraction::operator=(const Fraction &other) noexcept {
     return *this;
 }
 
+Fraction Fraction::simplify() {
+    Fraction res;
+    Natural gcd;
+    gcd = this->up.gcd(this->down.abs());
+    res.up = up.divQuotient(gcd);
+    res.down = this->down.div(gcd);
+    return res;
+}
+
+void Fraction::print() {
+    this->up.print();
+    for (int i = up.length() > down.abs().length()? up.length() : down.abs().length(); i > 0; i--) {
+        std::cout << "-";
+    }
+    std::cout << "\n";
+    this->down.print();
+}
+
 
