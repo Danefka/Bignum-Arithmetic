@@ -95,7 +95,7 @@ Natural Natural::add(Natural other) {
 
     int overflow = 0;
     for (int i = 0; i < this->length() && i < other.length(); ++i) {
-        digits.push_back((this->digits.at(i) + other.digits.at(i) + overflow) / 10);
+        digits.push_back((this->digits.at(i) + other.digits.at(i) + overflow) % 10);
         if (this->digits.at(i) + other.digits.at(i) + overflow > 9) {
             overflow = 1;
         } else {
@@ -106,8 +106,8 @@ Natural Natural::add(Natural other) {
     int i = this->length() > other.length() ? other.length() : this->length();
     if (compare == 1) {
         for (int j = i; j < other.length(); ++j) {
-            digits.push_back((other.digits.at(i) + overflow) / 10);
-            if (other.digits.at(i) + overflow > 9) {
+            digits.push_back((other.digits.at(j) + overflow) % 10);
+            if (other.digits.at(j) + overflow > 9) {
                 overflow = 1;
             } else {
                 overflow = 0;
@@ -115,8 +115,8 @@ Natural Natural::add(Natural other) {
         }
     } else if (compare == 2) {
         for (int j = i; j < this->length(); ++j) {
-            digits.push_back((this->digits.at(i) + overflow) / 10);
-            if (this->digits.at(i) + overflow > 9) {
+            digits.push_back((this->digits.at(j) + overflow) % 10);
+            if (this->digits.at(j) + overflow > 9) {
                 overflow = 1;
             } else {
                 overflow = 0;
@@ -125,7 +125,6 @@ Natural Natural::add(Natural other) {
     }
     if (overflow == 1) {
         digits.push_back(overflow);
-
     }
     return Natural(digits);
 }
