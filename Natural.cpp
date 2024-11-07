@@ -185,3 +185,65 @@ Natural Natural::subByMul(Natural other, int k) {
 }
 
 Natural::Natural() = default;
+
+bool Natural::operator==(const Natural& other) noexcept {
+    if(this->compare(other) == 0){
+        return true;
+    }
+    return false;
+}
+
+bool Natural::operator>(const Natural& other) noexcept {
+    if(this->compare(other) == 2){
+        return true;
+    }
+    return false;
+}
+
+bool Natural::operator>=(const Natural& other) noexcept {
+    if(*this > other || *this == other){
+        return true;
+    }
+    return false;
+}
+
+Natural Natural::divDigit(Natural& other){
+    unsigned long long pow = 1;
+    Natural numerator = *this;
+    while(numerator > other.mulByTen(pow)){
+        pow++;
+    }
+    Natural denominator = other.mulByTen(pow-1);
+    short k = 0;
+    while(numerator > denominator){
+        k++;
+        numerator = numerator - denominator;
+    }
+    return Natural(k).mulByTen(pow-1);
+}
+
+Natural Natural::operator-(const Natural& other) noexcept {
+    return this->sub(other);
+}
+
+Natural Natural::divQuotient(Natural& other) {
+    Natural numerator = *this;
+    Natural quotient(0);
+    while(numerator > other){
+        quotient = quotient + numerator.divDigit(other);
+        numerator = numerator - numerator.divDigit(other).mul(other);
+    }
+    return quotient;
+}
+
+Natural Natural::operator+(const Natural& other) noexcept {
+    return this->add(other);
+}
+
+Natural Natural::divRemainder(Natural& other) {
+    Natural numerator = *this;
+    while(numerator > other){
+        numerator = numerator - numerator.divDigit(other).mul(other);
+    }
+    return numerator;
+}

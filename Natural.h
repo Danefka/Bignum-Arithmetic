@@ -27,19 +27,26 @@ public:
     void print(); // Даниил Гиршович
 
     Natural &operator=(const Natural &other) noexcept; // Максим Баринов
+    bool operator==(const Natural& other) noexcept;
+    bool operator>(const Natural& other) noexcept;
+    bool operator>=(const Natural& other) noexcept;
+    Natural operator+(const Natural& other) noexcept;
+    Natural operator-(const Natural& other) noexcept;
+
 
     // Функции для натуральных чисел
     int compare(Natural other); // N-1 COM_NN_D Даниил Гиршович
     bool compareToZero(); // N-2 NZER_N_B Даниил Гиршович
-    void increment(); // N-3 ADD_1N_N Артём Першин
+    void increment(); // N-3 ADD_1N_N Першин Артем
     Natural add(Natural other); // N-4 ADD_NN_N Даниил Гиршович
     Natural sub(Natural other); // N-5 MUL_Nk_N Даниил Гиршович
-    Natural mulByDigit(int d); // N-6 MUL_ND_N Артём Першин
+    Natural mulByDigit(int d); // N-6 MUL_ND_N Першин Артем
     Natural mulByTen(int k); // N-7 MUL_Nk_N Матвей Тарасов
     Natural mul(Natural other); // N-8 MUL_NN_N Гиршович Даниил
     Natural subByMul(Natural other, int k); // N-9 SUB_NDN_N Гиршович Даниил
-    Natural div(Natural other);
-
+    Natural divDigit(Natural& other); // N-10 DIV_NN_Dk Першин Артем
+    Natural divQuotient(Natural& other); // N-11 DIV_NN_N Першин Артем
+    Natural divRemainder(Natural& other); // N-12 MOD_NN_N Першин Артем
 };
 
 
