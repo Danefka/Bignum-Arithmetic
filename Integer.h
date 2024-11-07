@@ -15,11 +15,15 @@ class Integer{
 private:
     bool sign;
     Natural number;
+
+    Integer(Natural number);
 public:
     Integer(std::string number);
     explicit Integer(long long int number);
 
+    void print();
 };
+
 
 
 #endif //BIGNUM_ARITHMETIC_INTEGER_H

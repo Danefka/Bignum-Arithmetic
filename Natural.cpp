@@ -31,6 +31,9 @@ Natural::Natural(unsigned long long int number) {
 
 
 Natural::Natural(std::vector<int> digits) {
+    while (digits.back() == 0) {
+        digits.pop_back();
+    }
     std::copy(digits.begin(), digits.end(),
               std::back_inserter(this->digits)); // копирование цифр из динамического массива в динамический массив
 }
