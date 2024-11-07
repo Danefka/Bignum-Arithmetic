@@ -27,6 +27,7 @@ public:
 
     // Функции для натуральных чисел
     int compare(Natural other); // COM_NN_D Даниил Гиршович
+    void foo();
 };
 
 
