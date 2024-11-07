@@ -28,9 +28,11 @@ public:
     // Функции для натуральных чисел
     int compare(Natural other); // COM_NN_D Даниил Гиршович
 
-    void increment(); //ADD_1N_N
+    void increment(); //ADD_1N_N Артем Першин
   
     bool compareToZero(); // NZER_N_B Даниил Гиршович
+
+    Natural mpByDigit(int d); // MUL_ND_N Артем Першин
 };
 
 

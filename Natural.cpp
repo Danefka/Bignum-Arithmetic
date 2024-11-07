@@ -83,3 +83,18 @@ bool Natural::compareToZero() {
     return false;
 }
 
+Natural Natural::mpByDigit(int d){
+    int overflow = 0;
+    int i = 0;
+    int res;
+    Natural newNatural = new Natural(0);
+    while(i < this->length()){
+        res = this->digits[i] * d + overflow;
+        newNatural->digits.push_back(res % 10);
+        overflow = res / 10;
+    }
+    if(overflow == 0){
+        return newNatural;
+    }
+    newNatural->digits.push_back(overflow);
+}
