@@ -11,11 +11,11 @@
 class Natural {
 private:
     std::vector<int> digits;
+    explicit Natural(std::vector<int> digits); // Даниил Гиршович
 public:
     // Конструкторы
     explicit Natural(std::string number); // Даниил Гиршович
     explicit Natural(unsigned long long int number); // Даниил Гиршович
-    explicit Natural(std::vector<int> digits); // Даниил Гиршович
 
     // Длина числа
     unsigned long long int length(); // Даниил Гиршович
@@ -26,15 +26,13 @@ public:
     Natural& operator = (const Natural& other) noexcept; // Максим Баринов
 
     // Функции для натуральных чисел
-    int compare(Natural other); // COM_NN_D Даниил Гиршович
+    int compare(Natural other); // N-1 COM_NN_D Даниил Гиршович
+    bool compareToZero(); // N-2 NZER_N_B Даниил Гиршович
+    void increment(); // N-3 ADD_1N_N Артём Першин
+    Natural sum(Natural other); // N-4 ADD_NN_N Даниил Гиршович
+    Natural div(Natural other); // N-5 MUL_Nk_N Даниил Гиршович
+    Natural mulByDigit(int d); // N-6 MUL_ND_N Артем Першин
 
-    void increment(); // ADD_1N_N Артём Першин
-  
-    bool compareToZero(); // NZER_N_B Даниил Гиршович
-
-    Natural mulByDigit(int d); // MUL_ND_N Артем Першин
-
-    Natural sum(Natural other); // ADD_NN_N Даниил Гиршович
 };
 
 

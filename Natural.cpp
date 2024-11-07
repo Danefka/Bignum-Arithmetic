@@ -47,9 +47,13 @@ unsigned long long int Natural::length() {
 }
 
 void Natural::print() {
-    for (const int x: this->digits)
-        std::cout << x << ' ';
-    std::cout << '\n';
+    if (this->length() == 0) std::cout << "0\n";
+    else {
+        for (auto it = this->digits.rbegin(); it != this->digits.rend(); it++) {
+            std::cout << *it << "";
+        }
+        std::cout << "\n";
+    }
 }
 
 int Natural::compare(Natural other) {
@@ -142,5 +146,24 @@ Natural Natural::mulByDigit(int d) {
         return Natural(digits);
     }
     digits.push_back(overflow);
+    return Natural(digits);
+}
+
+Natural Natural::div(Natural other) {
+    if (this->compare(other) == 1) {
+        return Natural(0);
+    }
+
+    std::vector<int> digits;
+    int overflow = 0;
+    for (int i = 0; i < this->length(); i++) {
+        digits.push_back(this->digits.at(i)-overflow - other.digits.at(i)%10);
+        if (this->digits.at(i)-overflow - other.digits.at(i)<0){
+            overflow = 1;
+        } else{
+            overflow = 0;
+        }
+    }
+
     return Natural(digits);
 }
