@@ -70,3 +70,22 @@ Fraction Fraction::sub(Fraction &other) {
     return {resUp,resDown};
 }
 
+Fraction Fraction::div(Fraction& other) {
+    Fraction res;
+    if(other.up.isPoz()){
+        res.down = this->down.mul(other.up.abs());
+        res.up = this->up.mul(other.down);
+        return res;
+    }
+    res.down = this->down.mul(other.up.abs());
+    res.up = this->up.mul(other.down).changeSign();
+    return res;
+}
+
+Fraction Fraction::mul(Fraction& other) {
+    Fraction res;
+    res.down = this->down.mul(other.down);
+    res.up = this->up.mul(other.up);
+    return res;
+}
+
