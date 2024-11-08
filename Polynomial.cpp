@@ -23,14 +23,74 @@ Polynomial::Polynomial(std::vector<Fraction> fractions, std::vector<Integer> int
 
 void Polynomial::print() {
     unsigned long long i = 0;
-    for(auto pair : x){
-        Integer pow = pair.first;
-        pair.second.printToLine();
+    for(auto pair = x.rbegin(); pair!=x.rend(); pair++){
+        Integer pow = pair->first;
+        pair->second.printToLine();
         std::cout << " * X^";
         pow.printToLine();
         i++;
-        if(i == x.size()){ return;}
+        if(i == x.size()){ std::cout << "\n"; return;}
         std::cout << " + ";
     }
+}
+
+Polynomial Polynomial::add(Polynomial other) {
+    Polynomial res = *this;
+    for (auto && pair : other.x){
+
+        if (res.x.count(pair.first) != 1) {
+            res.x.insert(std::make_pair(pair.first, pair.second));
+            continue;
+        }
+        res.x[pair.first] = res.x.at(pair.first).add(pair.second);
+    }
+    return res;
+}
+
+Polynomial &Polynomial::operator=(const Polynomial &other) noexcept {
+    this->x = other.x;
+    return *this;
+}
+
+Polynomial Polynomial::sub(Polynomial other) {
+    Polynomial res = *this;
+    for (auto && pair : other.x){
+        if (res.x.count(pair.first) != 1) {
+            Fraction minusOne = Fraction(Integer(-1));
+            res.x.insert(std::make_pair(pair.first, pair.second.mul(minusOne)));
+            continue;
+        }
+        res.x[pair.first] = res.x.at(pair.first).sub(pair.second);
+    }
+    return res;
+}
+
+Polynomial Polynomial::mulByFrac(Fraction other) {
+    Polynomial res = *this;
+    for (auto && pair : res.x){
+        if (res.x.count(pair.first) != 1) {
+            res.x.insert(std::make_pair(pair.first, pair.second.mul(other)));
+            continue;
+        }
+        res.x[pair.first] = res.x.at(pair.first).mul(other);
+    }
+    return res;
+}
+
+Polynomial Polynomial::mulByX(Natural pow) {
+    Polynomial res;
+    for (auto && pair : res.x){
+        Integer integer = pair.first;
+        res.x.insert(std::make_pair(integer.add(pow), pair.second));
+    }
+    return res;
+}
+
+Integer Polynomial::degree() {
+    return x.begin()->first;
+}
+
+Fraction Polynomial::coefficient() {
+    return x.rbegin()->second;
 }
 
