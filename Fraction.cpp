@@ -7,8 +7,8 @@
 Fraction::Fraction() = default;
 
 Fraction::Fraction(unsigned long long int up, long long int down) {
-    this->up = Natural(up);
-    this->down = Integer(down);
+    this->up = Integer(up);
+    this->down = Natural(down);
 }
 
 Fraction::Fraction(Natural up, Natural down) {
@@ -16,14 +16,14 @@ Fraction::Fraction(Natural up, Natural down) {
     this->down = down;
 }
 
-Fraction::Fraction(Natural up, Integer down) {
+Fraction::Fraction(Integer up, Natural down) {
     this->up = up;
     this->down = down;
 }
 
 Fraction::Fraction(Integer up, Integer down) {
-    this->up = up.abs();
-    this->down = Integer(up.isPoz() == down.isPoz(), down.abs());
+    this->down = down.abs();
+    this->up = Integer(up.isPoz() == down.isPoz(), down.abs());
 }
 
 Fraction &Fraction::operator=(const Fraction &other) noexcept {
@@ -33,8 +33,8 @@ Fraction &Fraction::operator=(const Fraction &other) noexcept {
 }
 
 void Fraction::print() {
-    this->up.print();
-    for (int i = up.length() > down.abs().length() ? up.length() : down.abs().length(); i > 0; i--) {
+    this->down.print();
+    for (int i = down.length() > up.abs().length() ? down.length() : up.abs().length(); i > 0; i--) {
         std::cout << "-";
     }
     std::cout << "\n";
@@ -44,18 +44,31 @@ void Fraction::print() {
 Fraction Fraction::simplify() {
     Fraction res;
     Natural gcd;
-    gcd = this->up.gcd(this->down.abs());
-    res.up = up.divQuotient(gcd);
-    res.down = this->down.div(gcd);
+    gcd = this->up.abs().gcd(this->down);
+    res.up = up.div(gcd);
+    res.down = this->down.divQuotient(gcd);
     return res;
 }
 
 bool Fraction::isInteger() {
     Natural one = Natural(1);
-    if (!this->simplify().down.abs().compare(one)) {
+    if (!this->simplify().down.compare(one)) {
         return true;
     }
     return false;
 }
 
+Fraction Fraction::add(Fraction &other) {
+    Fraction res;
+    Natural resDown = this->down.mul(other.down);
+    Integer resUp = this->up.mul(other.down).add(other.up.mul(this->down));
+    return res;
+}
+
+Fraction Fraction::sub(Fraction &other) {
+    Fraction res;
+    Natural resDown = this->down.mul(other.down);
+    Integer resUp = this->up.mul(other.down).sub(other.up.mul(this->down));
+    return res;
+}
 
