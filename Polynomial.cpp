@@ -17,9 +17,20 @@ Polynomial::Polynomial(std::vector<Fraction> fractions, std::vector<Integer> int
             x.insert(std::make_pair(key, fractions.at(i)));
             continue;
         }
+        x[key] = x.at(key).add(fractions.at(i));
     }
 }
 
-Polynomial::Polynomial(Fraction *fractions, Integer *integers) {
-
+void Polynomial::print() {
+    unsigned long long i = 0;
+    for(auto pair : x){
+        Integer pow = pair.first;
+        pair.second.printToLine();
+        std::cout << " * X^";
+        pow.printToLine();
+        i++;
+        if(i == x.size()){ return;}
+        std::cout << " + ";
+    }
 }
+

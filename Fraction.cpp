@@ -103,8 +103,18 @@ Fraction Fraction::div(Fraction &other) {
     return {resUp, resDown};
 }
 
-Integer Fraction::toInteg() {
+Integer Fraction::toInteger() {
     return this->up;
+}
+
+bool Fraction::operator<(const Fraction &other) const noexcept {
+    return !this->operator==(other) && !this->operator>(other);
+}
+
+void Fraction::printToLine() {
+    this->up.printToLine();
+    std::cout << "/";
+    this->down.printToLine();
 }
 
 

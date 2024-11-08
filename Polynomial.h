@@ -13,9 +13,12 @@ class Polynomial {
 private:
     std::map<Integer,Fraction> x;
 public:
+    // Конструкторы
     Polynomial();
     Polynomial(std::vector<Fraction> fractions, std::vector<Integer> integers);
-    Polynomial(Fraction fractions[], Integer integers[]);
+
+    // Вывод в консоль
+    void print(); // Гиршович Даниил
 };
 
 

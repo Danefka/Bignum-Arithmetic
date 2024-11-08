@@ -159,3 +159,10 @@ bool Integer::operator<(const Integer &other) const noexcept {
     return !this->operator>(other) && !this->operator==(other);
 }
 
+void Integer::printToLine() {
+    if (!this->sign && !natural.isZero()) {
+        std::cout << "-";
+    }
+    this->natural.printToLine();
+}
+

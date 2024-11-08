@@ -291,3 +291,13 @@ Natural Natural::lcm(Natural other) {
     return (this->mul(other)).divQuotient(gcd);
 }
 
+void Natural::printToLine() {
+    if (this->length() == 0) std::cout << "0";
+    else {
+        for (auto it = this->digits.rbegin(); it != this->digits.rend(); it++) {
+            std::cout << *it << "";
+        }
+        std::cout << "";
+    }
+}
+
