@@ -11,11 +11,11 @@
 
 class Polynomial {
 private:
-    std::map<Integer,Fraction> x;
+    std::map<Natural,Fraction> x;
 public:
     // Конструкторы
     Polynomial(); // Гиршович Даниил
-    Polynomial(std::vector<Fraction> fractions, std::vector<Integer> integers); // Гиршович Даниил
+    Polynomial(std::vector<Fraction> fractions, std::vector<Natural> naturals); // Гиршович Даниил
 
     // Вывод в консоль
     void print(); // Гиршович Даниил
@@ -29,8 +29,10 @@ public:
     Polynomial mulByFrac(Fraction fraction); // P-3 Гиршович Даниил
     Polynomial mulByX(Natural pow);  // P-4 Гиршович Даниил
     Fraction coefficient(); // P-5 Гиршович Даниил
-    Integer degree(); // P-6 Гиршович Даниил
-
+    Natural degree(); // P-6 Гиршович Даниил
+    Fraction fac(); // P-7 FAC_P_Q Першин Артем
+    Polynomial mul(Polynomial& other); // P-8 MUL_PP_P Першин Артем
+    Polynomial div(Polynomial& other); // P-9 DIV_PP_P Першин Артем
 };
 
 

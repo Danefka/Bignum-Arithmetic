@@ -6,13 +6,13 @@
 
 Polynomial::Polynomial() = default;
 
-Polynomial::Polynomial(std::vector<Fraction> fractions, std::vector<Integer> integers) {
-    if (fractions.size() != integers.size()) {
+Polynomial::Polynomial(std::vector<Fraction> fractions, std::vector<Natural> naturals) {
+    if (fractions.size() != naturals.size()) {
         std::cout << "Количество коэффицентов не равно количеству X";
         exit(40);
     }
     for (int i = 0; i < fractions.size(); ++i) {
-        Integer key = integers.at(i);
+        Natural key = naturals.at(i);
         if (x.count(key) != 1) {
             x.insert(std::make_pair(key, fractions.at(i)));
             continue;
@@ -92,5 +92,43 @@ Integer Polynomial::degree() {
 
 Fraction Polynomial::coefficient() {
     return x.rbegin()->second;
+}
+
+Fraction Polynomial::fac() {
+    Natural LCM(1);
+    Natural GCD = this->coefficient().numerator().abs();
+    for(auto i : x){
+        GCD = GCD.gcd(i.second.numerator().abs());
+        LCM = LCM.lcm(i.second.denominator());
+    }
+    Fraction res(GCD, LCM);
+    return res;
+}
+
+Polynomial Polynomial::mul(Polynomial& other) {
+    Polynomial res;
+    Fraction Coef;
+    Fraction cur;
+    for(Natural i(0); this->degree().add(other.degree()).add(Natural(1)) > i; i.increment()){
+        Coef = Fraction(0);
+        for(Natural j(0); i.add(Natural(1)) > j; j.increment()){
+            cur = this->x[j].mul(other.x[i.sub(j)]);
+            Coef.add(cur);
+        }
+        res.x[i] = Coef;
+    }
+    return res;
+}
+
+Polynomial Polynomial::div(Polynomial &other) {
+    Polynomial copy = *this;
+    Polynomial res;
+    Fraction Coef;
+    while(copy.degree() > other.degree()){
+        Coef = copy.coefficient().div(other.coefficient());
+        res.x[copy.degree().sub(other.degree())] = Coef;
+        copy = copy.sub(other.mulByFrac(Coef).mulByX(copy.degree().sub(other.degree())));
+    }
+    return res;
 }
 
