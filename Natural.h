@@ -31,9 +31,9 @@ public:
 
     // Операторы
     Natural &operator=(const Natural &other) noexcept; // Максим Баринов
-    bool operator==(const Natural& other) noexcept; //Першин Артем
-    bool operator>(const Natural& other) noexcept; //Першин Артем
-    bool operator>=(const Natural& other) noexcept; //Першин Артем
+    bool operator==(const Natural& other) const noexcept; //Першин Артем
+    bool operator>(const Natural& other) const noexcept; //Першин Артем
+    bool operator>=(const Natural& other) const noexcept; //Першин Артем
 
 
     // Функции для натуральных чисел

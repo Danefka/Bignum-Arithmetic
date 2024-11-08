@@ -31,7 +31,9 @@ public:
     // Операторы
     Integer &operator=(const Integer &other) noexcept;  // Гиршович Даниил
     Integer &operator=(const Natural &other) noexcept; // Гиршович Даниил
-    bool operator>(const Integer& other) noexcept;
+    bool operator>(const Integer& other) const noexcept;
+    bool operator<(const Integer& other) const noexcept;
+    bool operator==(const Integer& other) const noexcept;
 
 
     // Вывод в консоль

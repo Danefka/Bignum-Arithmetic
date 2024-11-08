@@ -59,21 +59,23 @@ Natural &Natural::operator=(const Natural &other) noexcept {
     return *this;
 }
 
-bool Natural::operator==(const Natural &other) noexcept {
-    if (this->compare(other) == 0) {
+bool Natural::operator==(const Natural &other) const noexcept {
+    Natural thisCopy = *this;
+    if (thisCopy.compare(other) == 0) {
         return true;
     }
     return false;
 }
 
-bool Natural::operator>(const Natural &other) noexcept {
-    if (this->compare(other) == 2) {
+bool Natural::operator>(const Natural &other) const noexcept {
+    Natural thisCopy = *this;
+    if (thisCopy.compare(other) == 2) {
         return true;
     }
     return false;
 }
 
-bool Natural::operator>=(const Natural &other) noexcept {
+bool Natural::operator>=(const Natural &other) const noexcept {
     if (*this > other || *this == other) {
         return true;
     }

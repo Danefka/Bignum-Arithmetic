@@ -45,21 +45,22 @@ Integer::Integer(long long int number) {
     this->natural = Natural(number);
 }
 
-Integer &Integer::operator=(const Integer &other) noexcept {
+Integer & Integer::operator=(const Integer &other) noexcept {
     this->sign = other.sign;
     this->natural = other.natural;
     return *this;
 }
 
-Integer &Integer::operator=(const Natural &other) noexcept {
+Integer &Integer::operator=(const Natural &other)  noexcept {
     this->sign = true;
     this->natural = Natural(other);
     return *this;
 }
 
-bool Integer::operator>(const Integer &other) noexcept {
-    Natural copy = other.natural;
-    if (this->natural.isZero() && copy.isZero()) {
+bool Integer::operator>(const Integer &other) const noexcept {
+    Integer copyThis = *this;
+    Integer copyOther = other;
+    if (copyThis.isZero() && copyOther.isZero()) {
         return false;
     }
     if (this->sign && !other.sign) {
@@ -68,7 +69,7 @@ bool Integer::operator>(const Integer &other) noexcept {
     if (this->sign && other.sign) {
         return this->natural > other.natural;
     }
-    return copy > this->natural;
+    return other.natural > this->natural;
 }
 
 
@@ -148,5 +149,13 @@ Integer Integer::mod(Integer other) {
     integer = integer.mul(other);
     res = res.sub(integer);
     return res;
+}
+
+bool Integer::operator==(const Integer &other) const noexcept {
+    return this->sign == other.sign && this->natural == other.natural;
+}
+
+bool Integer::operator<(const Integer &other) const noexcept {
+    return !this->operator>(other) && !this->operator==(other);
 }
 

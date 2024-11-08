@@ -37,6 +37,16 @@ Fraction &Fraction::operator=(const Fraction &other) noexcept {
     return *this;
 }
 
+bool Fraction::operator==(const Fraction &other) const noexcept {
+    return this->up == other.up && this->down == other.down;
+}
+
+bool Fraction::operator>(const Fraction &other) const noexcept {
+    Fraction thisCopy = *this;
+    Fraction otherCopy = other;
+    return thisCopy.sub(otherCopy).up.isPoz() && !thisCopy.sub(otherCopy).up.isZero();
+}
+
 void Fraction::print() {
     this->up.print();
     for (int i = down.length() > up.abs().length() ? down.length() : up.abs().length(); i > 0; i--) {
@@ -66,34 +76,36 @@ bool Fraction::isInteger() {
 Fraction Fraction::add(Fraction &other) {
     Natural resDown = this->down.mul(other.down);
     Integer resUp = this->up.mul(other.down).add(other.up.mul(this->down));
-    return {resUp,resDown};
+    return {resUp, resDown};
 }
 
 Fraction Fraction::sub(Fraction &other) {
     Natural resDown = this->down.mul(other.down);
     Integer resUp = this->up.mul(other.down).sub(other.up.mul(this->down));
-    return {resUp,resDown};
+    return {resUp, resDown};
 }
 
-Fraction Fraction::div(Fraction& other) {
+Fraction Fraction::mul(Fraction &other) {
+    Natural resDown = this->down.mul(other.down);
+    Integer resUp = this->up.mul(other.up);
+    return {resUp, resDown};
+}
+
+Fraction Fraction::div(Fraction &other) {
     Fraction res;
-    if(other.up.isPoz()){
-        res.down = this->down.mul(other.up.abs());
-        res.up = this->up.mul(other.down);
-        return res;
+    if (other.up.isPoz()) {
+        Natural resDown = this->down.mul(other.up.abs());
+        Integer resUp = this->up.mul(other.down);
+        return {resUp, resDown};
     }
-    res.down = this->down.mul(other.up.abs());
-    res.up = this->up.mul(other.down).changeSign();
-    return res;
-}
-
-Fraction Fraction::mul(Fraction& other) {
-    Fraction res;
-    res.down = this->down.mul(other.down);
-    res.up = this->up.mul(other.up);
-    return res;
+    Natural resDown = this->down.mul(other.up.abs());
+    Integer resUp = this->up.mul(other.down).changeSign();
+    return {resUp, resDown};
 }
 
 Integer Fraction::toInteg() {
     return this->up;
 }
+
+
+

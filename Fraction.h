@@ -24,6 +24,9 @@ public:
 
     // Операторы
     Fraction &operator=(const Fraction &other) noexcept;
+    bool operator==(const Fraction& other) const noexcept;
+    bool operator>(const Fraction& other) const noexcept;
+    bool operator<(const Fraction& other) const noexcept;
 
     // Вывод в консоль
     void print();
