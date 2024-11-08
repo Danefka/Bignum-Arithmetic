@@ -26,6 +26,11 @@ Fraction::Fraction(Integer up, Integer down) {
     this->down = down.abs();
 }
 
+Fraction::Fraction(Integer integer) {
+    this->up = integer;
+    this->down = Natural(1);
+}
+
 Fraction &Fraction::operator=(const Fraction &other) noexcept {
     this->up = other.up;
     this->down = other.down;
@@ -89,3 +94,6 @@ Fraction Fraction::mul(Fraction& other) {
     return res;
 }
 
+Integer Fraction::toInteg() {
+    return this->up;
+}
