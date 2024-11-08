@@ -11,12 +11,12 @@
 
 class Fraction {
 private:
-    Natural down;
     Integer up;
+    Natural down;
 public:
     // Конструкторы
     Fraction();
-    Fraction(unsigned long long int up, long long int down);
+    Fraction(long long int up, unsigned long long int down);
     Fraction(Natural up, Natural down);
     Fraction(Integer up, Natural down);
     Fraction(Integer up, Integer down);

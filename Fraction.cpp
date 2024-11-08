@@ -6,7 +6,7 @@
 
 Fraction::Fraction() = default;
 
-Fraction::Fraction(unsigned long long int up, long long int down) {
+Fraction::Fraction(long long int up, unsigned long long int down) {
     this->up = Integer(up);
     this->down = Natural(down);
 }
@@ -22,8 +22,8 @@ Fraction::Fraction(Integer up, Natural down) {
 }
 
 Fraction::Fraction(Integer up, Integer down) {
-    this->down = down.abs();
     this->up = Integer(up.isPoz() == down.isPoz(), down.abs());
+    this->down = down.abs();
 }
 
 Fraction &Fraction::operator=(const Fraction &other) noexcept {
@@ -59,16 +59,14 @@ bool Fraction::isInteger() {
 }
 
 Fraction Fraction::add(Fraction &other) {
-    Fraction res;
     Natural resDown = this->down.mul(other.down);
     Integer resUp = this->up.mul(other.down).add(other.up.mul(this->down));
-    return res;
+    return {resUp,resDown};
 }
 
 Fraction Fraction::sub(Fraction &other) {
-    Fraction res;
     Natural resDown = this->down.mul(other.down);
     Integer resUp = this->up.mul(other.down).sub(other.up.mul(this->down));
-    return res;
+    return {resUp,resDown};
 }
 

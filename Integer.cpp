@@ -105,10 +105,12 @@ Integer Integer::add(Integer other) {
     if (this->sign == other.sign) {
         res.sign = this->sign;
         res.natural = this->natural.add(other.natural);
+        return res;
     }
     if (this->natural > other.natural) {
         res.sign = this->sign;
         res.natural = this->natural.sub(other.natural);
+        return res;
     }
     res.sign = other.sign;
     res.natural = other.natural.sub(this->natural);
@@ -116,10 +118,7 @@ Integer Integer::add(Integer other) {
 }
 
 Integer Integer::sub(Integer other) {
-    Integer res, integer;
-    integer = other.changeSign();
-    res = res.add(integer);
-    return res;
+    return this->add(other.changeSign());
 }
 
 Integer Integer::mul(Integer other) {

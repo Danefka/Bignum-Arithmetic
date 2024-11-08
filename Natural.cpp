@@ -238,7 +238,7 @@ Natural Natural::subByMul(Natural other, int k) {
 Natural Natural::divFirstDigit(Natural &other) {
     unsigned long long pow = 1;
     Natural numerator = *this;
-    while (numerator > other.mulByTen(pow)) {
+    while (numerator >= other.mulByTen(pow)) {
         pow++;
     }
     Natural denominator = other.mulByTen(pow - 1);
