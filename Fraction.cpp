@@ -33,7 +33,7 @@ Fraction &Fraction::operator=(const Fraction &other) noexcept {
 }
 
 void Fraction::print() {
-    this->down.print();
+    this->up.print();
     for (int i = down.length() > up.abs().length() ? down.length() : up.abs().length(); i > 0; i--) {
         std::cout << "-";
     }

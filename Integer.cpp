@@ -5,10 +5,10 @@
 #include "Integer.h"
 #include "Natural.h"
 
-Integer::Integer() {}
+Integer::Integer() = default;
 
 Integer::Integer(const Integer &integer) {
-    this->sign = new bool(sign);
+    this->sign = integer.sign;
     this->natural = integer.natural;
 }
 
