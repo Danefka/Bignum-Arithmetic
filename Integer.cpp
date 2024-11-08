@@ -46,7 +46,7 @@ Integer::Integer(long long int number) {
 }
 
 Integer &Integer::operator=(const Integer &other) noexcept {
-    this->sign = new bool(sign);
+    this->sign = other.sign;
     this->natural = other.natural;
     return *this;
 }
