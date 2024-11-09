@@ -30,6 +30,7 @@ public:
     Polynomial mulByX(Natural pow);  // P-4 Гиршович Даниил
     Fraction coefficient(); // P-5 Гиршович Даниил
     Integer degree(); // P-6 Гиршович Даниил
+    Polynomial derivative(); // P-12 Гиршович Даниил
 
 };
 
