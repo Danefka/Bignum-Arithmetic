@@ -94,6 +94,9 @@ bool Integer::operator<(const Integer &other) const noexcept {
 
 
 bool Integer::operator==(const Integer &other) const noexcept {
+    if(this->natural == Natural(0) && other.natural == Natural(0)){
+        return true;
+    }
     return this->sign == other.sign && this->natural == other.natural;
 }
 

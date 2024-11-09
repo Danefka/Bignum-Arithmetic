@@ -24,6 +24,8 @@ public:
 
 
     // Функции для работы с многочленами
+    void clean(); // Уничтожение нулей
+    bool isZero();
     Polynomial add(Polynomial other); // P-1 Гиршович Даниил
     Polynomial sub(Polynomial other); // P-2 Гиршович Даниил
     Polynomial mulByFrac(Fraction fraction); // P-3 Гиршович Даниил
@@ -33,6 +35,8 @@ public:
     Fraction fac(); // P-7 FAC_P_Q Першин Артем
     Polynomial mul(Polynomial& other); // P-8 MUL_PP_P Першин Артем
     Polynomial div(Polynomial& other); // P-9 DIV_PP_P Першин Артем
+    Polynomial mod(Polynomial& other); // P-10 MOD_PP_P Першин Артем
+    Polynomial gcd(Polynomial& other); // P-11 GCF_PP_P Першин Артем
 };
 
 

@@ -37,6 +37,9 @@ public:
     void printToLine() const;
 
 
+    //getters
+    Integer numerator();
+    Natural denominator();
 
     // Функции для рациональными числами
     Fraction simplify() const; // Q-1 Гиршович Даниил

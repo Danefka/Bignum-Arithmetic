@@ -124,5 +124,13 @@ void Fraction::printToLine() const{
     this->down.printToLine();
 }
 
+Integer Fraction::numerator() {
+    return this->up;
+}
+
+Natural Fraction::denominator() {
+    return this->down;
+}
+
 
 

@@ -17,7 +17,7 @@ Polynomial::Polynomial(std::vector<Fraction> fractions, std::vector<Natural> nat
             x.insert(std::make_pair(key, fractions.at(i)));
             continue;
         }
-        x[key] = x.at(key).add(fractions.at(i));
+        x[key] = x.at(key) + (fractions.at(i));
     }
 }
 
@@ -42,7 +42,7 @@ Polynomial Polynomial::add(Polynomial other) {
             res.x.insert(std::make_pair(pair.first, pair.second));
             continue;
         }
-        res.x[pair.first] = res.x.at(pair.first).add(pair.second);
+        res.x[pair.first] = res.x.at(pair.first)+ pair.second;
     }
     return res;
 }
@@ -57,10 +57,10 @@ Polynomial Polynomial::sub(Polynomial other) {
     for (auto && pair : other.x){
         if (res.x.count(pair.first) != 1) {
             Fraction minusOne = Fraction(Integer(-1));
-            res.x.insert(std::make_pair(pair.first, pair.second.mul(minusOne)));
+            res.x.insert(std::make_pair(pair.first, pair.second * minusOne));
             continue;
         }
-        res.x[pair.first] = res.x.at(pair.first).sub(pair.second);
+        res.x[pair.first] = res.x.at(pair.first) - pair.second;
     }
     return res;
 }
@@ -69,28 +69,37 @@ Polynomial Polynomial::mulByFrac(Fraction other) {
     Polynomial res = *this;
     for (auto && pair : res.x){
         if (res.x.count(pair.first) != 1) {
-            res.x.insert(std::make_pair(pair.first, pair.second.mul(other)));
+            res.x.insert(std::make_pair(pair.first, pair.second * other));
             continue;
         }
-        res.x[pair.first] = res.x.at(pair.first).mul(other);
+        res.x[pair.first] = res.x.at(pair.first) * other;
     }
     return res;
 }
 
 Polynomial Polynomial::mulByX(Natural pow) {
     Polynomial res;
-    for (auto && pair : res.x){
-        Integer integer = pair.first;
-        res.x.insert(std::make_pair(integer.add(pow), pair.second));
+    for (auto pair : this->x){
+        Natural natural = pair.first;
+        res.x.insert(std::make_pair(natural + pow, pair.second));
     }
     return res;
 }
 
-Integer Polynomial::degree() {
-    return x.begin()->first;
+Natural Polynomial::degree() {
+    if(x.empty()){
+        return Natural(0);
+    }
+    while(coefficient().numerator() == 0){
+        x.erase(x.rbegin()->first);
+    }
+    return x.rbegin()->first;
 }
 
 Fraction Polynomial::coefficient() {
+    if(x.empty()){
+        return Fraction(0);
+    }
     return x.rbegin()->second;
 }
 
@@ -109,13 +118,16 @@ Polynomial Polynomial::mul(Polynomial& other) {
     Polynomial res;
     Fraction Coef;
     Fraction cur;
-    for(Natural i(0); this->degree().add(other.degree()).add(Natural(1)) > i; i.increment()){
+    Natural newDegree = this->degree() + other.degree() + Natural(1);
+    for(Natural i(0); newDegree > i; i.increment()){
         Coef = Fraction(0);
-        for(Natural j(0); i.add(Natural(1)) > j; j.increment()){
-            cur = this->x[j].mul(other.x[i.sub(j)]);
-            Coef.add(cur);
+        for(Natural j(0); i + Natural(1) > j; j.increment()){
+            if(this->x.count(j) != 0 && other.x.count((i-j)) != 0){
+                cur = this->x[j] * other.x[i - j];
+                Coef = Coef + cur;
+            }
         }
-        res.x[i] = Coef;
+        res.x.insert(std::make_pair(i,Coef));
     }
     return res;
 }
@@ -123,12 +135,35 @@ Polynomial Polynomial::mul(Polynomial& other) {
 Polynomial Polynomial::div(Polynomial &other) {
     Polynomial copy = *this;
     Polynomial res;
+    Polynomial w;
     Fraction Coef;
-    while(copy.degree() > other.degree()){
-        Coef = copy.coefficient().div(other.coefficient());
-        res.x[copy.degree().sub(other.degree())] = Coef;
-        copy = copy.sub(other.mulByFrac(Coef).mulByX(copy.degree().sub(other.degree())));
+    while(copy.degree() >= other.degree()){
+        Coef = copy.coefficient() / other.coefficient();
+        res.x.insert(std::make_pair((copy.degree() - other.degree()),Coef));
+        w = other.mulByX(copy.degree() - other.degree()).mulByFrac(Coef);
+        copy = copy.sub(w);
     }
     return res;
 }
 
+Polynomial Polynomial::mod(Polynomial& other) {
+    Polynomial res = *this;
+    Fraction Coef;
+    Polynomial w;
+    while(res.degree() > other.degree()){
+        Coef = res.coefficient() / other.coefficient();
+        w = other.mulByX(res.degree() - other.degree()).mulByFrac(Coef);
+        res = res.sub(w);
+    }
+    return res;
+}
+
+Polynomial Polynomial::gcd(Polynomial &other) {
+    Polynomial first = *this;
+    Polynomial second = other;
+    return Polynomial();
+}
+
+bool Polynomial::isZero() {
+    return x.empty();
+}
