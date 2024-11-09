@@ -37,6 +37,9 @@ public:
     Polynomial div(Polynomial& other); // P-9 DIV_PP_P Першин Артем
     Polynomial mod(Polynomial& other); // P-10 MOD_PP_P Першин Артем
     Polynomial gcd(Polynomial& other); // P-11 GCF_PP_P Першин Артем
+    Integer degree(); // P-6 Гиршович Даниил
+    Polynomial derivative(); // P-12 Гиршович Даниил
+
 };
 
 

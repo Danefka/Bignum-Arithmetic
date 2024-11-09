@@ -27,13 +27,16 @@ void Polynomial::print() {
         Natural(0).print();
     }
     unsigned long long i = 0;
-    for(auto pair = x.rbegin(); pair!=x.rend(); pair++){
+    for (auto pair = x.rbegin(); pair != x.rend(); pair++) {
         Integer pow = pair->first;
         pair->second.printToLine();
         std::cout << " * X^";
         pow.printToLine();
         i++;
-        if(i == x.size()){ std::cout << "\n"; return;}
+        if (i == x.size()) {
+            std::cout << "\n";
+            return;
+        }
         std::cout << " + ";
     }
 }
@@ -103,6 +106,18 @@ Fraction Polynomial::coefficient() {
         return Fraction(0);
     }
     return x.rbegin()->second;
+}
+
+Polynomial Polynomial::derivative() {
+    Polynomial res;
+    Integer one = Integer(1);
+    for (auto &&pair: this->x) {
+        Integer integer = pair.first;
+        if (!integer.isZero()) {
+            res.x.insert(std::make_pair(integer - one, pair.second*integer));
+        }
+    }
+    return res;
 }
 
 Fraction Polynomial::fac() {
