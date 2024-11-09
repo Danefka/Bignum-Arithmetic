@@ -27,21 +27,21 @@ public:
     bool operator==(const Fraction& other) const noexcept;
     bool operator>(const Fraction& other) const noexcept;
     bool operator<(const Fraction& other) const noexcept;
+    Fraction operator+(const Fraction& other) const noexcept; //Q-5
+    Fraction operator-(const Fraction& other) const noexcept; //Q-6
+    Fraction operator*(const Fraction& other) const noexcept; //Q-7
+    Fraction operator/(const Fraction& other) const noexcept; //Q-8
 
     // Вывод в консоль
-    void print();
-    void printToLine();
+    void print() const;
+    void printToLine() const;
 
 
 
     // Функции для рациональными числами
-    Fraction simplify(); // Q-1 Гиршович Даниил
-    bool isInteger(); // Q-2 Гиршович Даниил
-    Integer toInteger(); // Q-4 Тарасов Матвей
-    Fraction add(Fraction& other); // Q-5 ADD_QQ_Q Першин Артем
-    Fraction sub(Fraction& other); // Q-6 SUB_QQ_Q Першин Артем
-    Fraction mul(Fraction& other); // Q-7 MUL_QQ_Q Першин Артем
-    Fraction div(Fraction& other); // Q-8 DIV_QQ_Q Першин Артем
+    Fraction simplify() const; // Q-1 Гиршович Даниил
+    bool isInteger() const; // Q-2 Гиршович Даниил
+    Integer toInteger() const; // Q-4 Тарасов Матвей
 };
 
 

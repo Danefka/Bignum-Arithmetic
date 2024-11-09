@@ -24,7 +24,6 @@ public:
     Integer(std::string number);
     Integer(long long int number);
 
-
     // Операторы
     Integer &operator=(const Integer &other) noexcept;
     Integer &operator=(const Natural &other) noexcept;
@@ -47,7 +46,7 @@ public:
     Integer changeSign() const;// Z-3
     Natural toNatural() const; // Z-5
 
-    void printToLine();
+    void printToLine() const;
 };
 
 

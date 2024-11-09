@@ -175,7 +175,7 @@ Natural Integer::toNatural() const{ // ADD_ZZ_Z
 
 
 
-void Integer::printToLine() {
+void Integer::printToLine() const{
     if (!this->sign && !natural.isZero()) {
         std::cout << "-";
     }
