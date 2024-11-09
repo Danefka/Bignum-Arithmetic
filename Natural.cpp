@@ -38,11 +38,13 @@ Natural::Natural(unsigned long long int number) {
     this->digits = digits;
 }
 
-unsigned long long int Natural::length() {
+unsigned long long int Natural::length() const{
     return this->digits.size();
 }
 
-void Natural::print() {
+
+
+void Natural::print() const {
     if (this->length() == 0) std::cout << "0\n";
     else {
         for (auto it = this->digits.rbegin(); it != this->digits.rend(); it++) {
@@ -75,51 +77,30 @@ bool Natural::operator>(const Natural &other) const noexcept {
     return false;
 }
 
+bool Natural::operator<(const Natural &other) const noexcept {
+    Natural thisCopy = *this;
+    if (thisCopy.compare(other) == 1) {
+        return true;
+    }
+    return false;
+}
+
 bool Natural::operator>=(const Natural &other) const noexcept {
     if (*this > other || *this == other) {
         return true;
     }
     return false;
 }
-
-
-int Natural::compare(Natural other) {
-    if (other.length() != this->length()) {
-        return other.length() > this->length() ? 1 : 2; // сравнение длин и возвращение большей, если они не равны
-    }
-    for (int i = this->length() - 1; i >= 0; i--) { // если равны то сравнение по цифрам
-        if (other.digits.at(i) != this->digits.at(i)) {
-            return other.digits.at(i) > this->digits.at(i) ? 1 : 2;
-        }
-    }
-    return 0; // Если все цифры чисел равны, то возвращаем 0
-}
-
-bool Natural::isZero() {
-    if (this->length() == 0) { // Проверка на ноль
+bool Natural::operator<=(const Natural &other) const noexcept {
+    if (*this < other || *this == other) {
         return true;
     }
     return false;
 }
 
-void Natural::increment() {
-    int i = 0;
-    while (i < this->length() && this->digits[i] == 9) {
-        this->digits[i] = 0;
-        i++;
-    }
-    if (i == this->length()) {
-        this->digits.push_back(1);
-        return;
-    }
-    this->digits[i]++;
-}
-
-Natural Natural::add(Natural other) {
+Natural Natural::operator+(const Natural& other) const noexcept{
     std::vector<int> digits;
     int compare = this->compare(other);
-
-
     int overflow = 0;
     for (int i = 0; i < this->length() && i < other.length(); ++i) {
         digits.push_back((this->digits.at(i) + other.digits.at(i) + overflow) % 10);
@@ -156,8 +137,7 @@ Natural Natural::add(Natural other) {
     return Natural(digits);
 }
 
-
-Natural Natural::sub(Natural other) {
+Natural Natural::operator-(const Natural& other) const  noexcept{
     if (this->compare(other) == 1) {
         return Natural(0);
     }
@@ -189,8 +169,73 @@ Natural Natural::sub(Natural other) {
 
     return Natural(digits);
 }
+Natural Natural::operator*(const Natural& other) const noexcept {
+    Natural res = Natural(0);
+    for (int i = 0; i < other.length(); i++) {
+        Natural j = Natural(this->digits);
+        j = j.mulByTen(i);
+        j = j.mulByDigit(other.digits.at(i));
+        res = res + j;
+    }
+    return res;
+}
 
-Natural Natural::mulByDigit(int d) {
+Natural Natural::operator/(const Natural& other) const noexcept {
+    Natural numerator = *this;
+    Natural quotient(0);
+    while (numerator >= other && !numerator.isZero()) {
+        quotient = quotient + numerator.divFirstDigit(other);
+        numerator = numerator - numerator.divFirstDigit(other) * other;
+    }
+    return quotient;
+}
+
+Natural Natural::operator%(const Natural& other) const noexcept {
+    if (!this->compare(other)) {
+        return Natural(0);
+    }
+    Natural numerator = *this;
+    while (numerator > other) {
+        numerator = numerator - numerator.divFirstDigit(other) * other;
+    }
+    return numerator;
+}
+
+
+int Natural::compare(const Natural& other) const{
+    if (other.length() != this->length()) {
+        return other.length() > this->length() ? 1 : 2; // сравнение длин и возвращение большей, если они не равны
+    }
+    for (int i = this->length() - 1; i >= 0; i--) { // если равны то сравнение по цифрам
+        if (other.digits.at(i) != this->digits.at(i)) {
+            return other.digits.at(i) > this->digits.at(i) ? 1 : 2;
+        }
+    }
+    return 0; // Если все цифры чисел равны, то возвращаем 0
+}
+
+bool Natural::isZero() const{
+    if (this->length() == 0) { // Проверка на ноль
+        return true;
+    }
+    return false;
+}
+
+void Natural::increment(){
+    int i = 0;
+    while (i < this->length() && this->digits[i] == 9) {
+        this->digits[i] = 0;
+        i++;
+    }
+    if (i == this->length()) {
+        this->digits.push_back(1);
+        return;
+    }
+    this->digits[i]++;
+}
+
+
+Natural Natural::mulByDigit(int d) const{
     int overflow = 0;
     int i = 0;
     int res;
@@ -208,7 +253,7 @@ Natural Natural::mulByDigit(int d) {
     return Natural(digits);
 }
 
-Natural Natural::mulByTen(int pow) {
+Natural Natural::mulByTen(int pow) const{
     std::vector<int> digits;
     while (pow > 0) {
         digits.push_back(0);
@@ -220,24 +265,13 @@ Natural Natural::mulByTen(int pow) {
     return Natural(digits);
 }
 
-Natural Natural::mul(Natural other) {
-    Natural res = Natural(0);
-    for (int i = 0; i < other.length(); i++) {
-        Natural j = Natural(this->digits);
-        j = j.mulByTen(i);
-        j = j.mulByDigit(other.digits.at(i));
-        res = res.add(j);
-    }
-    return res;
-}
-
-Natural Natural::subByMul(Natural other, int k) {
+Natural Natural::subByMul(const Natural& other, int k) const{
     Natural i = other.mulByDigit(k);
-    return this->sub(i);
+    return *this-i;
 }
 
 
-Natural Natural::divFirstDigit(Natural &other) {
+Natural Natural::divFirstDigit(const Natural& other) const{
     unsigned long long pow = 1;
     Natural numerator = *this;
     while (numerator >= other.mulByTen(pow)) {
@@ -247,51 +281,31 @@ Natural Natural::divFirstDigit(Natural &other) {
     short k = 0;
     while (numerator >= denominator) {
         k++;
-        numerator = numerator.sub(denominator);
+        numerator = numerator - denominator;
     }
     return Natural(k).mulByTen(pow - 1);
 }
 
 
-Natural Natural::divQuotient(Natural &other) {
-    Natural numerator = *this;
-    Natural quotient(0);
-    while (numerator >= other && !numerator.isZero()) {
-        quotient = quotient.add(numerator.divFirstDigit(other));
-        numerator = numerator.sub(numerator.divFirstDigit(other).mul(other));
-    }
-    return quotient;
-}
 
 
-Natural Natural::divRemainder(Natural &other) {
-    if (!this->compare(other)) {
-        return Natural(0);
-    }
-    Natural numerator = *this;
-    while (numerator > other) {
-        numerator = numerator.sub(numerator.divFirstDigit(other).mul(other));
-    }
-    return numerator;
-}
-
-Natural Natural::gcd(Natural other) {
+Natural Natural::gcd(const Natural& other) const{
     Natural first = *this;
     Natural second = other;
     while (!second.isZero()) {
         Natural j = second;
-        second = first.divRemainder(second);
+        second = first % second;
         first = j;
     }
     return first;
 }
 
-Natural Natural::lcm(Natural other) {
+Natural Natural::lcm(const Natural& other) const{
     Natural gcd = this->gcd(other);
-    return (this->mul(other)).divQuotient(gcd);
+    return (*this*other) / gcd;
 }
 
-void Natural::printToLine() {
+void Natural::printToLine() const{
     if (this->length() == 0) std::cout << "0";
     else {
         for (auto it = this->digits.rbegin(); it != this->digits.rend(); it++) {
@@ -300,4 +314,3 @@ void Natural::printToLine() {
         std::cout << "";
     }
 }
-

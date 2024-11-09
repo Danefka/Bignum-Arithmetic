@@ -23,7 +23,8 @@ Integer::Integer(Natural natural, bool sign) {
 }
 
 Integer::Integer(bool sign, Natural natural) {
-    Integer(natural, sign);
+    this->sign = sign;
+    this->natural = natural;
 }
 
 Integer::Integer(std::string number) {
@@ -63,101 +64,116 @@ bool Integer::operator>(const Integer &other) const noexcept {
     if (copyThis.isZero() && copyOther.isZero()) {
         return false;
     }
-    if (this->sign && !other.sign) {
+    if (this->sign == other.sign) {
+        if (this->sign) return this->natural > other.natural;
+        else return !(this->natural > other.natural);
+    }
+    if (this->sign) {
+        return true;
+    }else {
+        return false;
+    }
+}
+
+bool Integer::operator<(const Integer &other) const noexcept {
+    Integer copyThis = *this;
+    Integer copyOther = other;
+    if (copyThis.isZero() && copyOther.isZero()) {
+        return false;
+    }
+    if (this->sign == other.sign) {
+        if (this->sign) return this->natural < other.natural;
+        else return !(this->natural < other.natural);
+    }
+    if (this->sign) {
+        return false;
+    }else {
         return true;
     }
-    if (this->sign && other.sign) {
-        return this->natural > other.natural;
-    }
-    return other.natural > this->natural;
 }
 
 
-void Integer::print() {
+bool Integer::operator==(const Integer &other) const noexcept {
+    return this->sign == other.sign && this->natural == other.natural;
+}
+
+Integer Integer::operator+(const Integer& other) const noexcept {
+    Integer res;
+    if (this->sign == other.sign) {
+        res.sign = this->sign;
+        res.natural = this->natural + other.natural;
+        return res;
+    }
+    if (this->natural > other.natural) {
+        res.sign = this->sign;
+        res.natural = this->natural - other.natural;
+        return res;
+    }
+    res.sign = other.sign;
+    res.natural = other.natural - this->natural;
+    return res;
+}
+Integer Integer::operator-(const Integer& other) const noexcept {
+    Integer a(other);
+    return *this + a.changeSign();
+}
+
+Integer Integer::operator*(const Integer& other) const noexcept {
+    Integer res;
+    res.sign = this->sign == other.sign;
+    res.natural = this->natural * other.natural;
+    return res;
+}
+
+Integer Integer::operator/(const Integer &other) const noexcept {
+    Integer res;
+    res.sign = this->sign == other.sign;
+    res.natural = this->natural / other.natural;
+    return res;
+}
+
+Integer Integer::operator%(const Integer &other) const noexcept {
+    Integer res = *this;
+    Integer integer = *this;
+    integer = integer / other;
+    integer = integer * other;
+    res = res - integer;
+    while(res < Integer(0) && !res.isZero())  {
+        res = res + other.abs();
+    }
+    return res;
+}
+
+void Integer::print() const{
     if (!this->sign && !natural.isZero()) {
         std::cout << "-";
     }
     natural.print();
 }
 
-Natural Integer::abs() {
+Natural Integer::abs() const{
     return this->natural;
 }
 
-bool Integer::isZero() {
+bool Integer::isZero() const{
     return this->natural.isZero();
 }
 
-bool Integer::isPoz() {
+bool Integer::isPoz() const{
     return sign;
 }
 
-Integer Integer::changeSign() {
+Integer Integer::changeSign() const{
     Integer integer(this->natural, !this->sign);
     return integer;
 }
 
-Natural Integer::toNatural() { // ADD_ZZ_Z
+Natural Integer::toNatural() const{ // ADD_ZZ_Z
     return this->natural;
 }
 
-Integer Integer::add(Integer other) {
-    Integer res;
-    if (this->sign == other.sign) {
-        res.sign = this->sign;
-        res.natural = this->natural.add(other.natural);
-        return res;
-    }
-    if (this->natural > other.natural) {
-        res.sign = this->sign;
-        res.natural = this->natural.sub(other.natural);
-        return res;
-    }
-    res.sign = other.sign;
-    res.natural = other.natural.sub(this->natural);
-    return res;
-}
-
-Integer Integer::sub(Integer other) {
-    return this->add(other.changeSign());
-}
-
-Integer Integer::mul(Integer other) {
-    Integer res;
-    res.sign = this->sign == other.sign;
-    res.natural = this->natural.mul(other.natural);
-    return res;
-}
 
 
-Integer Integer::div(Integer other) {
-    Integer res;
-    res.sign = this->sign == other.sign;
-    res.natural = this->natural.divQuotient(other.natural);
-    if (res.mul(other) > *this) {
-        Integer i;
-        i.natural = Natural(1);
-        res = res.add(i);
-    }
-    return res;
-}
-
-Integer Integer::mod(Integer other) {
-    Integer res = *this;
-    Integer integer = *this;
-    integer = integer.div(other);
-    integer = integer.mul(other);
-    res = res.sub(integer);
-    return res;
-}
-
-bool Integer::operator==(const Integer &other) const noexcept {
-    return this->sign == other.sign && this->natural == other.natural;
-}
-
-bool Integer::operator<(const Integer &other) const noexcept {
-    return !this->operator>(other) && !this->operator==(other);
-}
 
 void Integer::printToLine() {
     if (!this->sign && !natural.isZero()) {
