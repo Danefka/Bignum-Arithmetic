@@ -22,6 +22,10 @@ Polynomial::Polynomial(std::vector<Fraction> fractions, std::vector<Natural> nat
 }
 
 void Polynomial::print() {
+    this->clean();
+    if(x.empty()){
+        Natural(0).print();
+    }
     unsigned long long i = 0;
     for(auto pair = x.rbegin(); pair!=x.rend(); pair++){
         Integer pow = pair->first;
@@ -87,11 +91,9 @@ Polynomial Polynomial::mulByX(Natural pow) {
 }
 
 Natural Polynomial::degree() {
+    this->clean();
     if(x.empty()){
         return Natural(0);
-    }
-    while(coefficient().numerator() == 0){
-        x.erase(x.rbegin()->first);
     }
     return x.rbegin()->first;
 }
@@ -137,7 +139,7 @@ Polynomial Polynomial::div(Polynomial &other) {
     Polynomial res;
     Polynomial w;
     Fraction Coef;
-    while(copy.degree() >= other.degree()){
+    while(copy.degree() >= other.degree() && !copy.isZero()){
         Coef = copy.coefficient() / other.coefficient();
         res.x.insert(std::make_pair((copy.degree() - other.degree()),Coef));
         w = other.mulByX(copy.degree() - other.degree()).mulByFrac(Coef);
@@ -150,7 +152,7 @@ Polynomial Polynomial::mod(Polynomial& other) {
     Polynomial res = *this;
     Fraction Coef;
     Polynomial w;
-    while(res.degree() > other.degree()){
+    while(res.degree() >= other.degree() && !res.isZero()){
         Coef = res.coefficient() / other.coefficient();
         w = other.mulByX(res.degree() - other.degree()).mulByFrac(Coef);
         res = res.sub(w);
@@ -161,9 +163,27 @@ Polynomial Polynomial::mod(Polynomial& other) {
 Polynomial Polynomial::gcd(Polynomial &other) {
     Polynomial first = *this;
     Polynomial second = other;
-    return Polynomial();
+    while(!second.isZero()){
+        Polynomial temp = second;
+        second = first.mod(second);
+        first = temp;
+    }
+    return first;
 }
 
 bool Polynomial::isZero() {
+    this->clean();
     return x.empty();
+}
+
+void Polynomial::clean() {
+    if(x.empty()){
+        return;
+    }
+    while(x.rbegin()->second.numerator() == 0){
+        x.erase(x.rbegin()->first);
+        if(x.empty()){
+            return;
+        }
+    }
 }
