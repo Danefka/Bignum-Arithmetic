@@ -110,11 +110,11 @@ Fraction Polynomial::coefficient() {
 
 Polynomial Polynomial::derivative() {
     Polynomial res;
-    Integer one = Integer(1);
+    Natural one = Natural(1);
     for (auto &&pair: this->x) {
-        Integer integer = pair.first;
-        if (!integer.isZero()) {
-            res.x.insert(std::make_pair(integer - one, pair.second*integer));
+        Natural natural = pair.first;
+        if (!natural.isZero()) {
+            res.x.insert(std::make_pair(natural - one, pair.second * Fraction(natural)));
         }
     }
     return res;

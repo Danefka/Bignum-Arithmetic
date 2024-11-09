@@ -24,6 +24,9 @@ int main(){
     Polynomial p1(fractions1, naturals1);
     Polynomial p2(fractions2, naturals2);
     Polynomial p3(fractions3, naturals2);
-    Polynomial w1 = p1.gcd(p2);
+    Polynomial w1 = p1.derivative();
+    w1.print();
+    Polynomial w2 = w1.derivative();
+    w2.print();
     return 0;
 }
