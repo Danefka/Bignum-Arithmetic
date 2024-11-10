@@ -22,9 +22,10 @@ Polynomial::Polynomial(std::vector<Fraction> fractions, std::vector<Natural> nat
 }
 
 void Polynomial::print() {
-    this->clean();
+    *this = this->clean();
     if(x.empty()){
         Natural(0).print();
+        return;
     }
     unsigned long long i = 0;
     for (auto pair = x.rbegin(); pair != x.rend(); pair++) {
@@ -94,7 +95,7 @@ Polynomial Polynomial::mulByX(Natural pow) {
 }
 
 Natural Polynomial::degree() {
-    this->clean();
+    *this = this->clean();
     if(x.empty()){
         return Natural(0);
     }
@@ -187,18 +188,49 @@ Polynomial Polynomial::gcd(Polynomial &other) {
 }
 
 bool Polynomial::isZero() {
-    this->clean();
+    *this = this->clean();
     return x.empty();
 }
 
-void Polynomial::clean() {
+Polynomial Polynomial::clean() {
+    Polynomial res;
     if(x.empty()){
-        return;
+        return res;
     }
-    while(x.rbegin()->second.numerator() == 0){
-        x.erase(x.rbegin()->first);
-        if(x.empty()){
-            return;
+    for(auto pair:x){
+        if(!pair.second.numerator().isZero()) {
+            res.x[pair.first] = pair.second;
         }
     }
+    return res;
 }
+
+bool Polynomial::operator==(const Polynomial &other) noexcept {
+    return true;
+}
+
+Polynomial Polynomial::operator-(const Polynomial &other) noexcept {
+    Polynomial res = *this;
+    for (auto && pair : other.x){
+        if (res.x.count(pair.first) != 1) {
+            Fraction minusOne = Fraction(Integer(-1));
+            res.x.insert(std::make_pair(pair.first, pair.second * minusOne));
+            continue;
+        }
+        res.x[pair.first] = res.x.at(pair.first) - pair.second;
+    }
+    return res;
+}
+
+Polynomial Polynomial::operator+(const Polynomial &other) noexcept {
+    Polynomial res = *this;
+    for (auto && pair : other.x){
+        if (res.x.count(pair.first) != 1) {
+            res.x.insert(std::make_pair(pair.first, pair.second));
+            continue;
+        }
+        res.x[pair.first] = res.x.at(pair.first)+ pair.second;
+    }
+    return res;
+}
+

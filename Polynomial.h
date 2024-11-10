@@ -20,11 +20,16 @@ public:
     // Вывод в консоль
     void print(); // Гиршович Даниил
 
+    // Операторы
     Polynomial &operator=(const Polynomial &other) noexcept; // Гиршович Даниил
+    bool operator==(const Polynomial& other) noexcept;
+
+    Polynomial operator+(const Polynomial& other) noexcept;
+    Polynomial operator-(const Polynomial& other) noexcept;
 
 
     // Функции для работы с многочленами
-    void clean(); // Уничтожение нулей
+    Polynomial clean(); // Уничтожение нулей
     bool isZero();
 
     Polynomial add(Polynomial other); // P-1 Гиршович Даниил
