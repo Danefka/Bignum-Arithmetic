@@ -234,3 +234,9 @@ Polynomial Polynomial::operator+(const Polynomial &other) noexcept {
     return res;
 }
 
+Polynomial Polynomial::nmr() {
+    Polynomial derivative = this->derivative();
+    Polynomial gcd = this->gcd(derivative);
+    return this->div(gcd);
+}
+

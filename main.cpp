@@ -24,7 +24,9 @@ int main(){
     Polynomial p1(fractions1, naturals1);
     Polynomial p2(fractions2, naturals2);
     Polynomial p3(fractions3, naturals2);
-    Polynomial p = p1.mod(p2);
-    p.print();
+    Polynomial w1 = p2.mul(p2).mul(p3);
+    w1.print();
+    Polynomial w2 = w1.nmr();
+    w2.print();
     return 0;
 }

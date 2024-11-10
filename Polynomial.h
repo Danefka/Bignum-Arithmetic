@@ -44,7 +44,7 @@ public:
     Polynomial mod(Polynomial& other); // P-10 MOD_PP_P Першин Артем
     Polynomial gcd(Polynomial& other); // P-11 GCF_PP_P Першин Артем
     Polynomial derivative(); // P-12 Гиршович Даниил
-
+    Polynomial nmr(); // P-13 Першин Артем
 };
 
 
