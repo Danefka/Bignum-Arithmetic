@@ -24,9 +24,11 @@ int main(){
     Polynomial p1(fractions1, naturals1);
     Polynomial p2(fractions2, naturals2);
     Polynomial p3(fractions3, naturals2);
-    Polynomial w1 = p2.mul(p2).mul(p3);
+    Polynomial w1 = p2 - p3;
     w1.print();
-    Polynomial w2 = w1.nmr();
+    Polynomial w2 = p1 * p2;
     w2.print();
+    Polynomial w3 = w2.nmr();
+    w3.print();
     return 0;
 }
