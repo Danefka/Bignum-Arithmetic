@@ -70,6 +70,9 @@ Fraction Fraction::operator*(const Fraction &other) const noexcept {
 }
 
 Fraction Fraction::operator/(const Fraction &other) const noexcept {
+    if(other.up == 0){
+        throw std::invalid_argument("Деление на 0 (Рациональные).")
+    }
     Fraction res;
     if (other.up.isPoz()) {
         Natural resDown = this->down * other.up.abs();

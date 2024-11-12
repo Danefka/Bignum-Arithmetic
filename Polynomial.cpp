@@ -115,7 +115,7 @@ Polynomial Polynomial::gcd(Polynomial &other) {
     return first;
 }
 
-bool Polynomial::isZero() {
+bool Polynomial::isZero() const {
     return x.empty();
 }
 
@@ -188,7 +188,10 @@ Polynomial Polynomial::operator*(const Polynomial &other) const noexcept {
     return res;
 }
 
-Polynomial Polynomial::operator/(const Polynomial &other) const noexcept {
+Polynomial Polynomial::operator/(const Polynomial &other) const {
+    if(other.isZero()){
+        throw std::invalid_argument("Деление на 0 (Многочлены).");
+    }
     Polynomial copy = *this;
     Polynomial res;
     Polynomial w;
@@ -202,7 +205,10 @@ Polynomial Polynomial::operator/(const Polynomial &other) const noexcept {
     return res;
 }
 
-Polynomial Polynomial::operator%(const Polynomial &other) const noexcept {
+Polynomial Polynomial::operator%(const Polynomial &other) const {
+    if(other.isZero()){
+        throw std::invalid_argument("Деление на 0 (Многочлены).");
+    }
     Polynomial res = *this;
     Fraction Coef;
     Polynomial w;

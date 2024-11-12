@@ -27,13 +27,13 @@ public:
     Polynomial operator+(const Polynomial& other) const noexcept; // P-1 Гиршович Даниил
     Polynomial operator-(const Polynomial& other) const noexcept; // P-2 Гиршович Даниил
     Polynomial operator*(const Polynomial& other) const noexcept; // P-8 MUL_PP_P Першин Артем
-    Polynomial operator/(const Polynomial& other) const noexcept; // P-9 DIV_PP_P Першин Артем
-    Polynomial operator%(const Polynomial& other) const noexcept; // P-10 MOD_PP_P Першин Артем
+    Polynomial operator/(const Polynomial& other) const ; // P-9 DIV_PP_P Першин Артем
+    Polynomial operator%(const Polynomial& other) const ; // P-10 MOD_PP_P Першин Артем
 
 
     // Функции для работы с многочленами
     Polynomial clean(); // Уничтожение нулей
-    bool isZero();
+    bool isZero() const;
 
     Polynomial mulByFrac(Fraction fraction); // P-3 Гиршович Даниил
     Polynomial mulByX(Natural pow) const; // P-4 Гиршович Даниил

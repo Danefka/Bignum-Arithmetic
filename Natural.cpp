@@ -177,10 +177,13 @@ Natural Natural::operator*(const Natural& other) const noexcept {
         j = j.mulByDigit(other.digits.at(i));
         res = res + j;
     }
-    return res;
+    return res;z
 }
 
 Natural Natural::operator/(const Natural& other) const noexcept {
+    if(other.isZero()){
+        throw std::invalid_argument("Деление на 0 (Натуральные).");
+    }
     Natural numerator = *this;
     Natural quotient(0);
     while (numerator >= other && !numerator.isZero()) {
@@ -191,6 +194,9 @@ Natural Natural::operator/(const Natural& other) const noexcept {
 }
 
 Natural Natural::operator%(const Natural& other) const noexcept {
+    if(other.isZero()){
+        throw std::invalid_argument("Деление на 0 (Натуральные).");
+    }
     if (!this->compare(other)) {
         return Natural(0);
     }
