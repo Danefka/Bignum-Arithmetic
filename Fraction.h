@@ -30,7 +30,7 @@ public:
     Fraction operator+(const Fraction& other) const noexcept; //Q-5
     Fraction operator-(const Fraction& other) const noexcept; //Q-6
     Fraction operator*(const Fraction& other) const noexcept; //Q-7
-    Fraction operator/(const Fraction& other) const noexcept; //Q-8
+    Fraction operator/(const Fraction& other) const; //Q-8
 
     // Вывод в консоль
     void print() const;

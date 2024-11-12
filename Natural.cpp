@@ -177,10 +177,10 @@ Natural Natural::operator*(const Natural& other) const noexcept {
         j = j.mulByDigit(other.digits.at(i));
         res = res + j;
     }
-    return res;z
+    return res;
 }
 
-Natural Natural::operator/(const Natural& other) const noexcept {
+Natural Natural::operator/(const Natural& other) const {
     if(other.isZero()){
         throw std::invalid_argument("Деление на 0 (Натуральные).");
     }
@@ -193,7 +193,7 @@ Natural Natural::operator/(const Natural& other) const noexcept {
     return quotient;
 }
 
-Natural Natural::operator%(const Natural& other) const noexcept {
+Natural Natural::operator%(const Natural& other) const {
     if(other.isZero()){
         throw std::invalid_argument("Деление на 0 (Натуральные).");
     }

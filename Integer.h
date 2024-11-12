@@ -33,8 +33,8 @@ public:
     Integer operator+(const Integer& other) const noexcept; //Z-6
     Integer operator-(const Integer& other) const noexcept; //Z-7
     Integer operator*(const Integer& other) const noexcept; //Z-8
-    Integer operator/(const Integer& other) const noexcept; //Z-9
-    Integer operator%(const Integer& other) const noexcept; //Z-10
+    Integer operator/(const Integer& other) const ; //Z-9
+    Integer operator%(const Integer& other) const ; //Z-10
 
     // Вывод в консоль
     void print() const;

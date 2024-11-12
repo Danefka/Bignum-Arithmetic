@@ -128,7 +128,7 @@ Integer Integer::operator*(const Integer& other) const noexcept {
     return res;
 }
 
-Integer Integer::operator/(const Integer &other) const noexcept {
+Integer Integer::operator/(const Integer &other) const {
     if (other.isZero()) {
         throw std::invalid_argument("Деление на 0 (Целые).");
     }
@@ -138,9 +138,9 @@ Integer Integer::operator/(const Integer &other) const noexcept {
     return res;
 }
 
-Integer Integer::operator%(const Integer &other) const noexcept {
+Integer Integer::operator%(const Integer &other) const {
     if (other.isZero()) {
-        throw std::invalid_argument("Деление на 0 (Целые).")
+        throw std::invalid_argument("Деление на 0 (Целые).");
     }
     Integer res = *this;
     Integer integer = *this;

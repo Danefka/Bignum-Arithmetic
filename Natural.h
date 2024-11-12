@@ -39,8 +39,8 @@ public:
     Natural operator+(const Natural& other) const noexcept;
     Natural operator-(const Natural& other) const noexcept;
     Natural operator*(const Natural& other) const noexcept; // N-8
-    Natural operator/(const Natural& other) const noexcept; // N-11
-    Natural operator%(const Natural& other) const noexcept; // N-12
+    Natural operator/(const Natural& other) const ; // N-11
+    Natural operator%(const Natural& other) const ; // N-12
 
     // Функции для натуральных чисел
     int compare(const Natural& other) const; // N-1 COM_NN_D
