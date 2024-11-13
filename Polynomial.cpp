@@ -132,8 +132,8 @@ Polynomial Polynomial::clean() {
     return res;
 }
 
-bool Polynomial::operator==(const Polynomial &other) noexcept {
-    return true;
+bool Polynomial::operator==(const Polynomial &other) const noexcept {
+    return (*this - other).isZero();
 }
 
 Polynomial Polynomial::operator-(const Polynomial &other) const noexcept {

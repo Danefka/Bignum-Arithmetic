@@ -22,7 +22,7 @@ public:
 
     // Операторы
     Polynomial &operator=(const Polynomial &other) noexcept; // Гиршович Даниил
-    bool operator==(const Polynomial& other) noexcept;
+    bool operator==(const Polynomial& other) const noexcept;
 
     Polynomial operator+(const Polynomial& other) const noexcept; // P-1 Гиршович Даниил
     Polynomial operator-(const Polynomial& other) const noexcept; // P-2 Гиршович Даниил
