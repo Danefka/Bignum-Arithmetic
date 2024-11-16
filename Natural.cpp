@@ -12,7 +12,7 @@ Natural::Natural(std::vector<int> digits) {
               std::back_inserter(this->digits)); // копирование цифр из динамического массива в динамический массив
 }
 
-Natural::Natural() = default;
+Natural::Natural() = default; // конструктор по умолчанию
 
 Natural::Natural(std::string number) {
     std::vector<int> digits;
@@ -44,8 +44,8 @@ unsigned long long int Natural::length() const{
 
 
 
-void Natural::print() const {
-    if (this->length() == 0) std::cout << "0\n";
+void Natural::print() const { // вывод числа
+    if (this->length() == 0) std::cout << "0\n"; // проверка на ненужные нули
     else {
         for (auto it = this->digits.rbegin(); it != this->digits.rend(); it++) {
             std::cout << *it << "";
@@ -54,14 +54,14 @@ void Natural::print() const {
     }
 }
 
-Natural &Natural::operator=(const Natural &other) noexcept {
+Natural &Natural::operator=(const Natural &other) noexcept { // Оператор присваивания
     if (this != &other) {
         digits = other.digits;
     }
     return *this;
 }
 
-bool Natural::operator==(const Natural &other) const noexcept {
+bool Natural::operator==(const Natural &other) const noexcept { // Опаратор сравнения
     Natural thisCopy = *this;
     if (thisCopy.compare(other) == 0) {
         return true;
@@ -69,7 +69,7 @@ bool Natural::operator==(const Natural &other) const noexcept {
     return false;
 }
 
-bool Natural::operator>(const Natural &other) const noexcept {
+bool Natural::operator>(const Natural &other) const noexcept { // оператор "больше"
     Natural thisCopy = *this;
     if (thisCopy.compare(other) == 2) {
         return true;
@@ -77,7 +77,7 @@ bool Natural::operator>(const Natural &other) const noexcept {
     return false;
 }
 
-bool Natural::operator<(const Natural &other) const noexcept {
+bool Natural::operator<(const Natural &other) const noexcept { // оператор "меньше"
     Natural thisCopy = *this;
     if (thisCopy.compare(other) == 1) {
         return true;
@@ -98,20 +98,20 @@ bool Natural::operator<=(const Natural &other) const noexcept {
     return false;
 }
 
-Natural Natural::operator+(const Natural& other) const noexcept{
+Natural Natural::operator+(const Natural& other) const noexcept{ // Оператор сложения
     std::vector<int> digits;
     int compare = this->compare(other);
     int overflow = 0;
-    for (int i = 0; i < this->length() && i < other.length(); ++i) {
+    for (int i = 0; i < this->length() && i < other.length(); ++i) { // складываем цифры до тех пор, пока они не закончатся в меньшем
         digits.push_back((this->digits.at(i) + other.digits.at(i) + overflow) % 10);
-        if (this->digits.at(i) + other.digits.at(i) + overflow > 9) {
+        if (this->digits.at(i) + other.digits.at(i) + overflow > 9) { // проверяем на переполнение
             overflow = 1;
         } else {
             overflow = 0;
         }
     }
 
-    int i = this->length() > other.length() ? other.length() : this->length();
+    int i = this->length() > other.length() ? other.length() : this->length(); // сравниваем два числа
     if (compare == 1) {
         for (int j = i; j < other.length(); ++j) {
             digits.push_back((other.digits.at(j) + overflow) % 10);
@@ -131,20 +131,20 @@ Natural Natural::operator+(const Natural& other) const noexcept{
             }
         }
     }
-    if (overflow == 1) {
+    if (overflow == 1) { // если после всех сложений остался перенос, добавляем его
         digits.push_back(overflow);
     }
     return Natural(digits);
 }
 
-Natural Natural::operator-(const Natural& other) const  noexcept{
+Natural Natural::operator-(const Natural& other) const  noexcept{ // Оператор вычитания
     if (this->compare(other) == 1) {
         return Natural(0);
     }
 
     std::vector<int> digits;
     int overflow = 0;
-    for (int i = 0; i < other.length(); i++) {
+    for (int i = 0; i < other.length(); i++) { // вычитаем цифры до тех пор, пока не закончатся цифры в меньшем числе
         digits.push_back((this->digits.at(i) - overflow - other.digits.at(i) + 10) % 10);
         if (this->digits.at(i) - overflow - other.digits.at(i) < 0) {
             overflow = 1;
@@ -152,7 +152,7 @@ Natural Natural::operator-(const Natural& other) const  noexcept{
             overflow = 0;
         }
     }
-    if (overflow == 1) {
+    if (overflow == 1) { // если есть перенос, обрабатываем оставшиеся цифры большего числа
         for (int i = other.length(); i < this->length(); i++) {
             digits.push_back((this->digits.at(i) - overflow + 10) % 10);
             if (this->digits.at(i) - overflow < 0) {
@@ -169,9 +169,9 @@ Natural Natural::operator-(const Natural& other) const  noexcept{
 
     return Natural(digits);
 }
-Natural Natural::operator*(const Natural& other) const noexcept {
+Natural Natural::operator*(const Natural& other) const noexcept { // Оператор умножения
     Natural res = Natural(0);
-    for (int i = 0; i < other.length(); i++) {
+    for (int i = 0; i < other.length(); i++) { // используем методы умножения на цифру и умножение на десятки
         Natural j = Natural(this->digits);
         j = j.mulByTen(i);
         j = j.mulByDigit(other.digits.at(i));
@@ -180,24 +180,24 @@ Natural Natural::operator*(const Natural& other) const noexcept {
     return res;
 }
 
-Natural Natural::operator/(const Natural& other) const {
-    if(other.isZero()){
+Natural Natural::operator/(const Natural& other) const { // Оператор деления
+    if(other.isZero()){ // Проверка на ноль
         throw std::invalid_argument("Деление на 0 (Натуральные).");
     }
     Natural numerator = *this;
     Natural quotient(0);
-    while (numerator >= other && !numerator.isZero()) {
+    while (numerator >= other && !numerator.isZero()) { // пока изначальное число больше или равно делителя и не ноль
         quotient = quotient + numerator.divFirstDigit(other);
         numerator = numerator - numerator.divFirstDigit(other) * other;
     }
     return quotient;
 }
 
-Natural Natural::operator%(const Natural& other) const {
-    if(other.isZero()){
+Natural Natural::operator%(const Natural& other) const { // Оператор деления с остатком
+    if(other.isZero()){ // проверка на ноль
         throw std::invalid_argument("Деление на 0 (Натуральные).");
     }
-    if (!this->compare(other)) {
+    if (!this->compare(other)) { // если наше число меньше другого, возвращаем его
         return Natural(0);
     }
     Natural numerator = *this;
@@ -208,7 +208,7 @@ Natural Natural::operator%(const Natural& other) const {
 }
 
 
-int Natural::compare(const Natural& other) const{
+int Natural::compare(const Natural& other) const{ // Метод сравнения
     if (other.length() != this->length()) {
         return other.length() > this->length() ? 1 : 2; // сравнение длин и возвращение большей, если они не равны
     }
@@ -227,7 +227,7 @@ bool Natural::isZero() const{
     return false;
 }
 
-void Natural::increment(){
+void Natural::increment(){ // Добавляем цифру
     int i = 0;
     while (i < this->length() && this->digits[i] == 9) {
         this->digits[i] = 0;
@@ -241,12 +241,12 @@ void Natural::increment(){
 }
 
 
-Natural Natural::mulByDigit(int d) const{
+Natural Natural::mulByDigit(int d) const{ // Умножение на цифру
     int overflow = 0;
     int i = 0;
     int res;
     std::vector<int> digits;
-    while (i < this->length()) {
+    while (i < this->length()) { // перебераем цифры и умножаем их на число учитывая переполнение
         res = this->digits[i] * d + overflow;
         digits.push_back(res % 10);
         overflow = res / 10;
@@ -259,32 +259,32 @@ Natural Natural::mulByDigit(int d) const{
     return Natural(digits);
 }
 
-Natural Natural::mulByTen(int pow) const{
+Natural Natural::mulByTen(int pow) const{ // Умножение на 10 в степени pow
     std::vector<int> digits;
-    while (pow > 0) {
+    while (pow > 0) { // записываем pow нулей
         digits.push_back(0);
         pow--;
     }
     for (int i = 0; i < this->length(); i++) {
-        digits.push_back(this->digits.at(i));
+        digits.push_back(this->digits.at(i)); // добавляем к ним наше число
     }
     return Natural(digits);
 }
 
-Natural Natural::subByMul(const Natural& other, int k) const{
+Natural Natural::subByMul(const Natural& other, int k) const{ // Вычитание числа умноженного на цифру
     Natural i = other.mulByDigit(k);
     return *this-i;
 }
 
 
-Natural Natural::divFirstDigit(const Natural& other) const{
-    unsigned long long pow = 1;
-    Natural numerator = *this;
-    while (numerator >= other.mulByTen(pow)) {
+Natural Natural::divFirstDigit(const Natural& other) const{ // Деление с получением первой цифры частного
+    unsigned long long pow = 1; // Степень в которую возводим делитель
+    Natural numerator = *this; // Создаем копию текущего числа, которое будет делимым
+    while (numerator >= other.mulByTen(pow)) { // Определяем максимальную степень, в которую нужно возвести делитель, чтобы получить число, меньшее или равное делимому
         pow++;
     }
-    Natural denominator = other.mulByTen(pow - 1);
-    short k = 0;
+    Natural denominator = other.mulByTen(pow - 1); // Делитель, умноженный на 10 в степени (pow - 1)
+    short k = 0; // переменная хранящая полученную цифру
     while (numerator >= denominator) {
         k++;
         numerator = numerator - denominator;
@@ -295,10 +295,10 @@ Natural Natural::divFirstDigit(const Natural& other) const{
 
 
 
-Natural Natural::gcd(const Natural& other) const{
+Natural Natural::gcd(const Natural& other) const{ // НОД
     Natural first = *this;
     Natural second = other;
-    while (!second.isZero()) {
+    while (!second.isZero()) { // по алгоритму Евклида
         Natural j = second;
         second = first % second;
         first = j;
@@ -306,12 +306,12 @@ Natural Natural::gcd(const Natural& other) const{
     return first;
 }
 
-Natural Natural::lcm(const Natural& other) const{
+Natural Natural::lcm(const Natural& other) const{ // НОК
     Natural gcd = this->gcd(other);
     return (*this*other) / gcd;
 }
 
-void Natural::printToLine() const{
+void Natural::printToLine() const{ // Вывод одного числа в строку
     if (this->length() == 0) std::cout << "0";
     else {
         for (auto it = this->digits.rbegin(); it != this->digits.rend(); it++) {

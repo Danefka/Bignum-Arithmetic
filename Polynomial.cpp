@@ -4,10 +4,10 @@
 
 #include "Polynomial.h"
 
-Polynomial::Polynomial() = default;
+Polynomial::Polynomial() = default; // Конструктор по умолчанию
 
-Polynomial::Polynomial(std::vector<Fraction> fractions, std::vector<Natural> naturals) {
-    if (fractions.size() != naturals.size()) {
+Polynomial::Polynomial(std::vector<Fraction> fractions, std::vector<Natural> naturals) { // Конструктор с векторами коэффициентов и степеней
+    if (fractions.size() != naturals.size()) { // Проверка размеров векторов
         std::cout << "Количество коэффицентов не равно количеству X";
         exit(40);
     }
@@ -21,8 +21,8 @@ Polynomial::Polynomial(std::vector<Fraction> fractions, std::vector<Natural> nat
     }
 }
 
-void Polynomial::print() const {
-    if(x.empty()){
+void Polynomial::print() const { // Вывод многочлена
+    if(x.empty()){ // если многочлен пустой
         Natural(0).print();
         return;
     }
@@ -41,12 +41,12 @@ void Polynomial::print() const {
     }
 }
 
-Polynomial &Polynomial::operator=(const Polynomial &other) noexcept {
+Polynomial &Polynomial::operator=(const Polynomial &other) noexcept { // Оператор присваивания
     this->x = other.x;
     return *this;
 }
 
-Polynomial Polynomial::mulByFrac(Fraction other) {
+Polynomial Polynomial::mulByFrac(Fraction other) { // Умножение многочлена на дробь
     Polynomial res = *this;
     for (auto && pair : res.x){
         if (res.x.count(pair.first) != 1) {
@@ -58,7 +58,7 @@ Polynomial Polynomial::mulByFrac(Fraction other) {
     return res;
 }
 
-Polynomial Polynomial::mulByX(Natural pow) const {
+Polynomial Polynomial::mulByX(Natural pow) const { // Умножение многочлена на X в заданной степени
     Polynomial res;
     for (auto pair : this->x){
         Natural natural = pair.first;
@@ -67,21 +67,21 @@ Polynomial Polynomial::mulByX(Natural pow) const {
     return res;
 }
 
-Natural Polynomial::degree() const {
+Natural Polynomial::degree() const { // Получение старшей степени многочлена
     if(x.empty()){
         return Natural(0);
     }
     return x.rbegin()->first;
 }
 
-Fraction Polynomial::coefficient() const {
+Fraction Polynomial::coefficient() const { // Получение коэффициента при старшем члене
     if(x.empty()){
         return Fraction(0);
     }
     return x.rbegin()->second;
 }
 
-Polynomial Polynomial::derivative() {
+Polynomial Polynomial::derivative() { // Вычисление производной многочлена
     Polynomial res;
     Natural one = Natural(1);
     for (auto &&pair: this->x) {
@@ -93,10 +93,10 @@ Polynomial Polynomial::derivative() {
     return res;
 }
 
-Fraction Polynomial::fac() {
+Fraction Polynomial::fac() { // Вычисление факториала многочлена
     Natural LCM(1);
     Natural GCD = this->coefficient().numerator().abs();
-    for(auto i : x){
+    for(auto i : x){ // вычисляем при помощи НОДа числителя и НОКа знаменателя
         GCD = GCD.gcd(i.second.numerator().abs());
         LCM = LCM.lcm(i.second.denominator());
     }
@@ -104,10 +104,10 @@ Fraction Polynomial::fac() {
     return res;
 }
 
-Polynomial Polynomial::gcd(Polynomial &other) {
+Polynomial Polynomial::gcd(Polynomial &other) { // Вычисление НОД двух многочленов
     Polynomial first = *this;
     Polynomial second = other;
-    while(!second.isZero()){
+    while(!second.isZero()){ // по алгоритму Евклида
         Polynomial temp = second;
         second = first % second;
         first = temp;
@@ -115,11 +115,11 @@ Polynomial Polynomial::gcd(Polynomial &other) {
     return first;
 }
 
-bool Polynomial::isZero() const {
+bool Polynomial::isZero() const { // Проверка на нулевой многочлен
     return x.empty();
 }
 
-Polynomial Polynomial::clean() {
+Polynomial Polynomial::clean() { // Очистка многочлена от нулевых коэффициентов
     Polynomial res;
     if(x.empty()){
         return res;
@@ -132,34 +132,34 @@ Polynomial Polynomial::clean() {
     return res;
 }
 
-bool Polynomial::operator==(const Polynomial &other) const noexcept {
+bool Polynomial::operator==(const Polynomial &other) const noexcept { // Оператор "равно"
     return (*this - other).isZero();
 }
 
-Polynomial Polynomial::operator-(const Polynomial &other) const noexcept {
+Polynomial Polynomial::operator-(const Polynomial &other) const noexcept { // Оператор вычитания
     Polynomial res = *this;
-    for (auto && pair : other.x){
+    for (auto && pair : other.x){ // вычитаем многочлены из друг друга, обрабатывая члены с одинаковыми степенями
         if (res.x.count(pair.first) != 1) {
             Fraction minusOne = Fraction(Integer(-1));
             res.x.insert(std::make_pair(pair.first, pair.second * minusOne));
             continue;
         }
         res.x[pair.first] = res.x.at(pair.first) - pair.second;
-    }
+    } // очищение от нулевых коэффициентов
     res = res.clean();
     return res;
 }
 
-Polynomial Polynomial::operator+(const Polynomial &other) const noexcept {
+Polynomial Polynomial::operator+(const Polynomial &other) const noexcept { // Оператор сложения
     Polynomial res = *this;
-    for (auto && pair : other.x){
+    for (auto && pair : other.x){ // Складывает два многочлена, обрабатывая члены с одинаковыми степенями
         if (res.x.count(pair.first) != 1) {
             res.x.insert(std::make_pair(pair.first, pair.second));
             continue;
         }
         res.x[pair.first] = res.x.at(pair.first)+ pair.second;
     }
-    res = res.clean();
+    res = res.clean(); // Результат очищается от нулевых коэффициентов
     return res;
 }
 
@@ -169,12 +169,12 @@ Polynomial Polynomial::nmr() {
     return (*this / gcd);
 }
 
-Polynomial Polynomial::operator*(const Polynomial &other) const noexcept {
+Polynomial Polynomial::operator*(const Polynomial &other) const noexcept { // Оператор умножения
     Polynomial res;
     Fraction Coef;
     Fraction cur;
     Natural newDegree = this->degree() + other.degree() + Natural(1);
-    for(Natural i(0); newDegree > i; i.increment()){
+    for(Natural i(0); newDegree > i; i.increment()){ // используя метод "умножения столбиком"
         Coef = Fraction(0);
         for(Natural j(0); i + Natural(1) > j; j.increment()){
             if(this->x.count(j) != 0 && other.x.count((i-j)) != 0){
@@ -184,11 +184,11 @@ Polynomial Polynomial::operator*(const Polynomial &other) const noexcept {
         }
         res.x.insert(std::make_pair(i,Coef));
     }
-    res = res.clean();
+    res = res.clean(); // Результат очищается от нулевых коэффициентов
     return res;
 }
 
-Polynomial Polynomial::operator/(const Polynomial &other) const {
+Polynomial Polynomial::operator/(const Polynomial &other) const { // Оператор деления
     if(other.isZero()){
         throw std::invalid_argument("Деление на 0 (Многочлены).");
     }
@@ -196,7 +196,7 @@ Polynomial Polynomial::operator/(const Polynomial &other) const {
     Polynomial res;
     Polynomial w;
     Fraction Coef;
-    while(copy.degree() >= other.degree() && !copy.isZero()){
+    while(copy.degree() >= other.degree() && !copy.isZero()){ // используя метод "деления уголком"
         Coef = copy.coefficient() / other.coefficient();
         res.x.insert(std::make_pair((copy.degree() - other.degree()),Coef));
         w = other.mulByX(copy.degree() - other.degree()).mulByFrac(Coef);
@@ -205,14 +205,14 @@ Polynomial Polynomial::operator/(const Polynomial &other) const {
     return res;
 }
 
-Polynomial Polynomial::operator%(const Polynomial &other) const {
-    if(other.isZero()){
+Polynomial Polynomial::operator%(const Polynomial &other) const { // Оператор остатка от деления
+    if(other.isZero()){ // проверка на ноль
         throw std::invalid_argument("Деление на 0 (Многочлены).");
     }
     Polynomial res = *this;
     Fraction Coef;
     Polynomial w;
-    while(res.degree() >= other.degree() && !res.isZero()){
+    while(res.degree() >= other.degree() && !res.isZero()){ // используя метод "деления уголком"
         Coef = res.coefficient() / other.coefficient();
         w = other.mulByX(res.degree() - other.degree()).mulByFrac(Coef);
         res = res - w;
