@@ -2,8 +2,8 @@
 // Created by Даниил Гиршович on 07.11.2024.
 //
 
-#include "Integer.h"
-#include "Natural.h"
+#include "include/Integer.h"
+#include "include/Natural.h"
 
 Integer::Integer() = default; // Конструктор по умолчанию
 

@@ -2,7 +2,7 @@
 // Created by Даниил Гиршович on 06.11.2024.
 //
 
-#include "Natural.h"
+#include "include/Natural.h"
 
 Natural::Natural(std::vector<int> digits) {
     while (!digits.empty() && digits.back() == 0) {

@@ -2,7 +2,7 @@
 // Created by Даниил Гиршович on 08.11.2024.
 //
 
-#include "Polynomial.h"
+#include "include/Polynomial.h"
 
 Polynomial::Polynomial() = default; // Конструктор по умолчанию
 

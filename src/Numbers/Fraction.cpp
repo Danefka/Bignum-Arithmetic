@@ -2,7 +2,7 @@
 // Created by Даниил Гиршович on 07.11.2024.
 //
 
-#include "Fraction.h"
+#include "include/Fraction.h"
 
 Fraction::Fraction() = default; // Конструктор по умолчанию
 
