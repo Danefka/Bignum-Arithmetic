@@ -4,6 +4,9 @@
 
 #include "Natural.h"
 
+
+
+
 Natural::Natural(std::string str) {
     if (str.length() == 0) {
         this->digits = {0};
@@ -18,10 +21,26 @@ Natural::Natural(std::string str) {
     removeLeadingZeros();
 }
 
+
+Natural::Natural(unsigned long long int number) {
+    if (number == 0) {
+        this->digits = {0};
+    } else {
+        while (number > 0) {
+            this->digits.push_back(number % 1000000000); // Добавляем последние 9 цифр
+            number /= 1000000000; // Убираем последние 9 цифр
+        }
+    }
+    removeLeadingZeros();
+}
+
+
+
 void Natural::removeLeadingZeros() {
     while (this->digits.size() > 1 && this->digits.back() == 0) {
         this->digits.pop_back();
     }
+    std::cout << std::endl;
 }
 
 void Natural::print() {
@@ -67,7 +86,7 @@ bool Natural::isZero() const{
     if (digits.size() == 1 && digits.at(0) == 0) {
         return true;
     }
-    return false;
+    return 0;
 }
 
 Natural Natural::increment() {
@@ -196,6 +215,20 @@ Natural Natural::mulByDigit(int d) const {
     int overflow = 0;
     int i = 0;
 
+Natural Natural::operator%(const Natural &other) const {
+    if(other.isZero()){ // проверка на ноль
+        throw std::invalid_argument("Деление на 0 (Натуральные).");
+    }
+    if (*this < other) { // если наше число меньше другого, возвращаем его
+        return *this;
+    }
+    Natural numerator = *this;
+    while (numerator >= other) {
+        numerator = numerator - (numerator.divFirstDigit(other) * other);
+        numerator.removeLeadingZeros();
+    }
+    return numerator;
+}
 
     while (i < this->digits.size()) { // перебераем цифры и умножаем их на число учитывая переполнение
         if (this->digits.at(i) + overflow <= 100000000) {
