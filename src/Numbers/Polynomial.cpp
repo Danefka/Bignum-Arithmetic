@@ -2,7 +2,7 @@
 // Created by Даниил Гиршович on 08.11.2024.
 //
 
-#include "include/Polynomial.h"
+#include "Polynomial.h"
 
 Polynomial::Polynomial() = default; // Конструктор по умолчанию
 
@@ -190,13 +190,14 @@ Polynomial Polynomial::operator*(const Polynomial &other) const noexcept { // О
 
 Polynomial Polynomial::operator/(const Polynomial &other) const { // Оператор деления
     if(other.isZero()){
-        throw std::invalid_argument("Деление на 0 (Многочлены).");
+        throw std::invalid_argument("Деление на 0 (CHLEN).");
     }
     Polynomial copy = *this;
     Polynomial res;
     Polynomial w;
     Fraction Coef;
     while(copy.degree() >= other.degree() && !copy.isZero()){ // используя метод "деления уголком"
+        copy.degree().print();
         Coef = copy.coefficient() / other.coefficient();
         res.x.insert(std::make_pair((copy.degree() - other.degree()),Coef));
         w = other.mulByX(copy.degree() - other.degree()).mulByFrac(Coef);
@@ -207,7 +208,7 @@ Polynomial Polynomial::operator/(const Polynomial &other) const { // Опера�
 
 Polynomial Polynomial::operator%(const Polynomial &other) const { // Оператор остатка от деления
     if(other.isZero()){ // проверка на ноль
-        throw std::invalid_argument("Деление на 0 (Многочлены).");
+        throw std::invalid_argument("Деление на 0 (CHLEN).");
     }
     Polynomial res = *this;
     Fraction Coef;
@@ -220,4 +221,3 @@ Polynomial Polynomial::operator%(const Polynomial &other) const { // Опера�
     }
     return res;
 }
-

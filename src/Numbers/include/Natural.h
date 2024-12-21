@@ -13,13 +13,13 @@
 
 class Natural {
 private:
-    Natural();
 
     std::vector<int> digits;
     void removeLeadingZeros();
 public:
     Natural(std::string str);
-
+    Natural();
+    Natural(unsigned  long long int);
     Natural& operator=(const Natural& other) noexcept;
     bool operator==(const Natural& other) const noexcept;
     bool operator>(const Natural& other) const noexcept;
@@ -32,11 +32,11 @@ public:
     Natural operator/(const Natural& other) const; // N-11
     Natural operator%(const Natural& other) const ; // N-12
 
-    void print();
-
+    void print() const;
+    void printToLine() const;
     //function
     short compare(const Natural& other) const; // N-1 COM_NN_D
-
+    unsigned long long int length() const;
 
     // Функции для натуральных чисел
     bool isZero() const;

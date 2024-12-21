@@ -2,7 +2,7 @@
 // Created by Даниил Гиршович on 07.11.2024.
 //
 
-#include "include/Fraction.h"
+#include "Fraction.h"
 
 Fraction::Fraction() = default; // Конструктор по умолчанию
 
@@ -134,6 +134,5 @@ Integer Fraction::numerator() { // Получение числителя
 Natural Fraction::denominator() { // Получение знаменателя
     return this->down;
 }
-
 
 
