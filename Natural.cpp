@@ -4,9 +4,6 @@
 
 #include "Natural.h"
 
-
-
-
 Natural::Natural(std::string str) {
     if (str.length() == 0) {
         this->digits = {0};
@@ -21,7 +18,6 @@ Natural::Natural(std::string str) {
     removeLeadingZeros();
 }
 
-
 Natural::Natural(unsigned long long int number) {
     if (number == 0) {
         this->digits = {0};
@@ -34,16 +30,25 @@ Natural::Natural(unsigned long long int number) {
     removeLeadingZeros();
 }
 
-
-
 void Natural::removeLeadingZeros() {
     while (this->digits.size() > 1 && this->digits.back() == 0) {
         this->digits.pop_back();
     }
-    std::cout << std::endl;
 }
 
-void Natural::print() {
+unsigned long long int Natural::length() const {
+    if (this->digits.empty()) {
+        return 0;
+    }
+
+    // Длина последнего блока (самого старшего разряда)
+    unsigned long long int lastBlockLength = std::to_string(this->digits.back()).length();
+
+    // Общая длина = длина последнего блока + количество полных блоков * 9
+    return lastBlockLength + (this->digits.size() - 1) * 9;
+}
+
+void Natural::print() const{
     if (digits.empty()){
         std::cout << "0";
     }
@@ -61,6 +66,23 @@ void Natural::print() {
         std::cout << digits.at(i);
     }
     std::cout << std::endl;
+}
+
+
+void Natural::printToLine() const {
+    if (digits.empty()) {
+        std::cout << "0"; // Если вектор цифр пуст, выводим 0
+        return;
+    }
+
+    // Выводим последний блок (самый старший разряд) без ведущих нулей
+    std::cout << digits.back();
+
+    // Выводим остальные блоки с ведущими нулями, если необходимо
+    for (int i = digits.size() - 2; i >= 0; --i) {
+        // Форматируем текущий блок, добавляя ведущие нули до 9 символов
+        std::cout << digits.at(i);
+    }
 }
 
 Natural &Natural::operator=(const Natural &other) noexcept {
@@ -86,7 +108,7 @@ bool Natural::isZero() const{
     if (digits.size() == 1 && digits.at(0) == 0) {
         return true;
     }
-    return 0;
+    return false;
 }
 
 Natural Natural::increment() {
@@ -176,31 +198,32 @@ Natural Natural::operator-(const Natural &other) const noexcept {
         return {"0"};
     }
 
-    Natural answer = Natural();
-    int overflow = 0;
-    for (int i = 0;
-         i < other.digits.size(); i++) { // вычитаем цифры до тех пор, пока не закончатся цифры в меньшем числе
-        answer.digits.push_back((this->digits.at(i) - overflow - other.digits.at(i) + 1000000000) % 1000000000);
-        if (this->digits.at(i) - overflow - other.digits.at(i) < 0) {
-            overflow = 1;
+    Natural answer = Natural(); // Инициализируем результат
+    int overflow = 0; // Перенос (заем)
+
+    for (int i = 0; i < other.digits.size(); ++i) {
+        int diff = this->digits.at(i) - other.digits.at(i) - overflow;
+        if (diff < 0) {
+            diff += 1000000000; // Если разность отрицательная, добавляем 10^9
+            overflow = 1; // Устанавливаем перенос
         } else {
-            overflow = 0;
+            overflow = 0; // Сбрасываем перенос
         }
+        answer.digits.push_back(diff); // Добавляем разность в результат
     }
-    if (overflow == 1) { // если есть перенос, обрабатываем оставшиеся цифры большего числа
-        for (int i = other.digits.size(); i < this->digits.size(); i++) {
-            answer.digits.push_back((this->digits.at(i) - overflow + 10) % 10);
-            if (this->digits.at(i) - overflow < 0) {
-                overflow = 1;
-            } else {
-                overflow = 0;
-            }
+
+    for (int i = other.digits.size(); i < this->digits.size(); ++i) {
+        int diff = this->digits.at(i) - overflow;
+        if (diff < 0) {
+            diff += 1000000000; // Если разность отрицательная, добавляем 10^9
+            overflow = 1; // Устанавливаем перенос
+        } else {
+            overflow = 0; // Сбрасываем перенос
         }
-    } else {
-        for (int i = other.digits.size(); i < this->digits.size(); i++) {
-            answer.digits.push_back(this->digits.at(i));
-        }
+        answer.digits.push_back(diff);
     }
+
+    answer.removeLeadingZeros();
     return answer;
 }
 
@@ -215,20 +238,6 @@ Natural Natural::mulByDigit(int d) const {
     int overflow = 0;
     int i = 0;
 
-Natural Natural::operator%(const Natural &other) const {
-    if(other.isZero()){ // проверка на ноль
-        throw std::invalid_argument("Деление на 0 (Натуральные).");
-    }
-    if (*this < other) { // если наше число меньше другого, возвращаем его
-        return *this;
-    }
-    Natural numerator = *this;
-    while (numerator >= other) {
-        numerator = numerator - (numerator.divFirstDigit(other) * other);
-        numerator.removeLeadingZeros();
-    }
-    return numerator;
-}
 
     while (i < this->digits.size()) { // перебераем цифры и умножаем их на число учитывая переполнение
         if (this->digits.at(i) + overflow <= 100000000) {
@@ -286,13 +295,23 @@ Natural Natural::subByMul(const Natural &other, int k) const {
 }
 
 Natural Natural::operator*(const Natural &other) const noexcept {
-    Natural answer = Natural("0");
+    Natural answer = Natural("0"); // Инициализируем результат нулем
+    // Перебираем каждый блок числа other
     for (int i = 0; i < other.digits.size(); ++i) {
-        for (int j = 0; std::pow(10,j) < other.digits.at(i) ; j++) {
-            int k = std::pow(10,j+1);
-            int digit = (other.digits.at(i)%(k) - other.digits.at(i)%(k/10))/(k/10);
-            Natural p = this->mulByDigit(digit).mulByTen(i*9 + j);
-            answer = p + answer;
+        int currentBlock = other.digits.at(i); // Текущий блок числа other
+
+        // Перебираем каждую цифру в текущем блоке
+        for (int j = 0; j < 9; ++j) {
+            int digit = currentBlock % 10; // Получаем текущую цифру (младший разряд)
+            currentBlock /= 10; // Убираем обработанную цифру
+
+            if (digit == 0) continue; // Пропускаем умножение на 0
+
+            // Умножаем текущее число на цифру и сдвигаем результат
+            Natural temp = this->mulByDigit(digit).mulByTen(i * 9 + j);
+
+            // Складываем результат с ответом
+            answer = answer + temp;
         }
     }
     return answer;
@@ -317,7 +336,7 @@ Natural Natural::divFirstDigit(const Natural &other) const {
 
 Natural Natural::operator/(const Natural &other) const {
     if(other.isZero()){ // Проверка на ноль
-        throw std::invalid_argument("Деление на 0 (Натуральные).");
+        throw std::invalid_argument("Деление на 0 (Natura).");
     }
     Natural numerator = *this;
     Natural quotient("0");
@@ -332,7 +351,7 @@ Natural Natural::operator/(const Natural &other) const {
 
 Natural Natural::operator%(const Natural &other) const {
     if(other.isZero()){ // проверка на ноль
-        throw std::invalid_argument("Деление на 0 (Натуральные).");
+        throw std::invalid_argument("Деление на 0 (NATURA).");
     }
     if (*this < other) { // если наше число меньше другого, возвращаем его
         return *this;

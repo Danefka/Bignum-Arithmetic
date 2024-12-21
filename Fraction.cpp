@@ -136,4 +136,3 @@ Natural Fraction::denominator() { // Получение знаменателя
 }
 
 
-

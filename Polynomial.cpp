@@ -190,7 +190,7 @@ Polynomial Polynomial::operator*(const Polynomial &other) const noexcept { // О
 
 Polynomial Polynomial::operator/(const Polynomial &other) const { // Оператор деления
     if(other.isZero()){
-        throw std::invalid_argument("Деление на 0 (Многочлены).");
+        throw std::invalid_argument("Деление на 0 (CHLEN).");
     }
     Polynomial copy = *this;
     Polynomial res;
@@ -207,7 +207,7 @@ Polynomial Polynomial::operator/(const Polynomial &other) const { // Опера�
 
 Polynomial Polynomial::operator%(const Polynomial &other) const { // Оператор остатка от деления
     if(other.isZero()){ // проверка на ноль
-        throw std::invalid_argument("Деление на 0 (Многочлены).");
+        throw std::invalid_argument("Деление на 0 (CHLEN).");
     }
     Polynomial res = *this;
     Fraction Coef;
@@ -220,4 +220,3 @@ Polynomial Polynomial::operator%(const Polynomial &other) const { // Опера�
     }
     return res;
 }
-

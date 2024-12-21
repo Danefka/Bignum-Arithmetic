@@ -130,7 +130,7 @@ Integer Integer::operator*(const Integer& other) const noexcept { // Опера�
 
 Integer Integer::operator/(const Integer &other) const { // Оператор деления
     if (other.isZero()) { // проверка на ноль
-        throw std::invalid_argument("Деление на 0 (Целые).");
+        throw std::invalid_argument("Деление на 0 (C).");
     }
     Integer res;
     res.sign = this->sign == other.sign;
@@ -140,7 +140,7 @@ Integer Integer::operator/(const Integer &other) const { // Оператор д�
 
 Integer Integer::operator%(const Integer &other) const { // Оператор остатка от деления
     if (other.isZero()) {
-        throw std::invalid_argument("Деление на 0 (Целые).");
+        throw std::invalid_argument("Деление на 0 (C).");
     }
     Integer res = *this;
     Integer integer = *this;
@@ -190,4 +190,3 @@ void Integer::printToLine() const{ // Вывод числа в строку
     }
     this->natural.printToLine();
 }
-
