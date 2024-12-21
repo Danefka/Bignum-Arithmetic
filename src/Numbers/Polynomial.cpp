@@ -197,7 +197,6 @@ Polynomial Polynomial::operator/(const Polynomial &other) const { // Опера�
     Polynomial w;
     Fraction Coef;
     while(copy.degree() >= other.degree() && !copy.isZero()){ // используя метод "деления уголком"
-        copy.degree().print();
         Coef = copy.coefficient() / other.coefficient();
         res.x.insert(std::make_pair((copy.degree() - other.degree()),Coef));
         w = other.mulByX(copy.degree() - other.degree()).mulByFrac(Coef);
